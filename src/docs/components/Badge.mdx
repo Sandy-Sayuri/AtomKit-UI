@@ -1,0 +1,31 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Components/Badge" />
+
+# Badge
+
+Componente atomico para representar status, categorias ou marcadores curtos.
+
+## Quando Usar
+
+- Status de registro
+- Estados de processo
+- Etiquetas curtas em tabelas e cards
+
+## Props Principais
+
+| Prop | Tipo | Descricao |
+| --- | --- | --- |
+| `variant` | `default`, `success`, `warning`, `danger`, `info` | Define intencao visual |
+| `size` | `sm`, `md`, `lg` | Define escala |
+
+## Exemplo
+
+```tsx
+<Badge variant="success">Ativo</Badge>
+<Badge variant="warning" size="sm">Pendente</Badge>
+```
+
+## Variacoes Documentadas
+
+Veja as stories em `Atoms/Badge` para variantes e tamanhos.

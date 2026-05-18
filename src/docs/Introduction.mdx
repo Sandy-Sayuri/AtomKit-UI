@@ -1,0 +1,68 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Docs/Introduction" />
+
+# AtomKit UI
+
+AtomKit UI e uma biblioteca de componentes React com TypeScript baseada em Atomic Design. O foco principal e oferecer componentes reutilizaveis, bem tipados e visualmente customizaveis por meio de design tokens e temas.
+
+## Objetivo
+
+Criar uma base de componentes que ajude a padronizar interfaces, acelerar a construcao de aplicacoes web e permitir que cada produto aplique sua propria identidade visual sem reescrever componentes.
+
+## Status do Projeto
+
+Projeto em progresso. A biblioteca ja possui estrutura de build, documentacao com Storybook, design tokens, provider de tema e um conjunto inicial de componentes.
+
+## Stack
+
+- React
+- TypeScript
+- Vite
+- Storybook
+- npm
+- Atomic Design
+
+## Foco Tecnico
+
+- Temas prontos: `light`, `dark`, `corporate`, `minimal`, `soft` e `terminal`
+- Override parcial de tokens por projeto
+- CSS variables como contrato visual
+- Componentes independentes de regra de negocio
+- Arquitetura preparada para reaproveitar tokens em outras stacks, incluindo Angular
+
+## Componentes Disponiveis
+
+- `Button`
+- `Input`
+- `FormField`
+- `Card`
+- `Badge`
+- `DataTable`
+
+## Graficos Disponiveis
+
+- `LineChart`
+- `BarChart`
+- `AreaChart`
+- `PieChart`
+- `DonutChart`
+- `Sparkline`
+
+## Exemplo Rapido
+
+```tsx
+import { AtomKitProvider, Button, Card, FormField } from "atomkit-ui";
+import "atomkit-ui/styles";
+
+export function App() {
+  return (
+    <AtomKitProvider theme="corporate">
+      <Card title="Cadastro" description="Componentes usando tokens do tema.">
+        <FormField label="Email" placeholder="nome@email.com" required />
+        <Button>Salvar</Button>
+      </Card>
+    </AtomKitProvider>
+  );
+}
+```

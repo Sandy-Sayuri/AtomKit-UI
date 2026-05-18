@@ -1,0 +1,41 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Components/Card" />
+
+# Card
+
+Organismo para agrupar conteudo relacionado em uma superficie visual. O componente usa tokens de surface, border, radius, shadow e spacing.
+
+## Quando Usar
+
+- Blocos de formulario
+- Resumos de dados
+- Paineis de composicao
+- Agrupamento de acoes e conteudo
+
+## Props Principais
+
+| Prop | Tipo | Descricao |
+| --- | --- | --- |
+| `variant` | `elevated`, `outlined`, `ghost` | Define estilo de superficie |
+| `title` | `string` | Titulo do card |
+| `description` | `string` | Texto secundario |
+| `footer` | `ReactNode` | Rodape opcional |
+| `padding` | `string` | Override de padding via token local |
+
+## Exemplo
+
+```tsx
+<Card
+  title="Cadastro"
+  description="Dados principais"
+  variant="outlined"
+  footer={<Button>Salvar</Button>}
+>
+  <FormField label="Nome" placeholder="Digite seu nome" />
+</Card>
+```
+
+## Variacoes Documentadas
+
+Veja as stories em `Organisms/Card` para variantes e padding customizado.

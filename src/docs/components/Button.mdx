@@ -1,0 +1,40 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Components/Button" />
+
+# Button
+
+Componente atomico para acoes de interface. Use para confirmar, navegar, executar tarefas ou abrir fluxos.
+
+## Quando Usar
+
+- Acoes primarias e secundarias em formularios
+- Acoes destrutivas com `danger`
+- Links visuais com `link`
+- Acoes com feedback de carregamento
+
+## Props Principais
+
+| Prop | Tipo | Descricao |
+| --- | --- | --- |
+| `variant` | `primary`, `secondary`, `outline`, `ghost`, `danger`, `success`, `link` | Define a intencao visual |
+| `size` | `sm`, `md`, `lg`, `xl` | Define altura, padding e escala |
+| `loading` | `boolean` | Mostra spinner e desabilita o botao |
+| `fullWidth` | `boolean` | Ocupa toda a largura disponivel |
+| `iconLeft` / `iconRight` | `ReactNode` | Renderiza icones ou elementos laterais |
+
+## Exemplo
+
+```tsx
+<Button variant="primary" size="md" loading={false}>
+  Salvar
+</Button>
+
+<Button variant="outline" iconLeft="+">
+  Novo item
+</Button>
+```
+
+## Variacoes Documentadas
+
+Veja as stories em `Atoms/Button` para variantes, tamanhos, loading, disabled, full width e icones.

@@ -1,0 +1,108 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Charts/Architecture" />
+
+# Charts Architecture
+
+Os graficos da AtomKit UI sao componentes autorais feitos com SVG, React e TypeScript. Eles nao usam Recharts, Chart.js, ApexCharts ou bibliotecas externas de charts.
+
+## Estrutura
+
+```txt
+src/charts/
+  core/
+    ChartFrame.tsx
+    types.ts
+  utils/
+    paths.ts
+    scales.ts
+  components/
+    LineChart.tsx
+    BarChart.tsx
+    AreaChart.tsx
+    PieChart.tsx
+    DonutChart.tsx
+    Sparkline.tsx
+
+src/components/organisms/charts/
+  LineChart/
+  BarChart/
+  AreaChart/
+  DonutChart/
+  Sparkline/
+  chart-utils.ts
+  chart.types.ts
+```
+
+## Core
+
+`ChartFrame` centraliza superficie, loading state, empty state, legenda e tooltip simples. Isso evita duplicar comportamento entre graficos.
+
+## Utils
+
+- `createLinearScale`: cria escala numerica simples.
+- `getValueExtent`: calcula minimo e maximo dos valores.
+- `normalizeValue`: normaliza valores entre 0 e 1.
+- `getCoordinates`: transforma dados em coordenadas SVG.
+- `createLinePath`: gera path SVG para linhas.
+- `createAreaPath`: gera path SVG para areas.
+- `createArcPath`: gera path SVG para pie e donut.
+
+## Temas
+
+Todos os graficos usam CSS variables da AtomKit UI:
+
+```css
+--ak-color-primary
+--ak-color-secondary
+--ak-color-surface
+--ak-color-text
+--ak-color-border
+--ak-radius
+--ak-shadow
+--ak-font-family
+```
+
+Isso faz com que os graficos respeitem automaticamente `AtomKitProvider`, temas prontos e overrides parciais de tokens.
+
+## API de Dados
+
+Os graficos cartesianos aceitam dados via `data`, `xKey` e `yKey`.
+
+```tsx
+<LineChart
+  data={salesData}
+  xKey="month"
+  yKey="value"
+  height={260}
+  colors={{
+    line: "#7c3aed",
+    area: "rgba(124, 58, 237, 0.16)",
+    grid: "#e5e7eb",
+    text: "#374151",
+  }}
+  showGrid
+  showTooltip
+  showLegend
+  animated
+/>
+```
+
+Os dados mockados do Storybook ficam em `src/mocks/charts.ts`.
+
+## Customizacao por Grafico
+
+- `colors`: override manual de `line`, `area`, `bar`, `grid`, `text` e `donut`
+- `height` e `width`: controle do `viewBox`
+- `showGrid`: grid horizontal
+- `showXAxis` e `showYAxis`: labels basicos de eixo
+- `showTooltip`: tooltip simples
+- `showLegend`: legenda
+- `lineWidth`: espessura de linha
+- `radius`: radius das barras
+- `fill`: preenchimento em area chart
+- `animated`: animações SVG/CSS leves
+
+## Escopo Atual
+
+O objetivo desta primeira versao e componentizacao, responsividade e customizacao visual. Recursos como zoom, drag, brush selection e engine avancada de series ficam fora do escopo por enquanto.

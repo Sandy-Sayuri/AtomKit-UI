@@ -1,0 +1,64 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Docs/Getting Started" />
+
+# Getting Started
+
+Esta documentacao descreve o uso esperado da AtomKit UI quando o pacote estiver pronto para consumo externo. O projeto ainda nao foi publicado no npm.
+
+## Instalacao Futura
+
+```bash
+npm install atomkit-ui
+```
+
+## Importacao
+
+```tsx
+import { AtomKitProvider, Button, Card, FormField } from "atomkit-ui";
+import "atomkit-ui/styles";
+```
+
+## Provider de Tema
+
+Use o `AtomKitProvider` para aplicar um tema pronto ou tokens customizados em uma area da interface.
+
+```tsx
+<AtomKitProvider theme="dark">
+  <Button>Acao</Button>
+</AtomKitProvider>
+```
+
+## Override Parcial
+
+Nao e necessario redefinir todos os tokens. A biblioteca faz merge entre o tema base e os overrides informados.
+
+```tsx
+<AtomKitProvider
+  theme="light"
+  tokens={{
+    colors: {
+      primary: "#be123c",
+      background: "#fff7f8",
+    },
+    radius: "14px",
+    density: "compact",
+    fontFamily: "Inter, sans-serif",
+  }}
+>
+  <Button>Acao customizada</Button>
+</AtomKitProvider>
+```
+
+## Uso de Componentes
+
+```tsx
+<Card title="Usuario" description="Dados basicos">
+  <FormField label="Nome" placeholder="Digite seu nome" required />
+  <Button variant="primary">Salvar</Button>
+</Card>
+```
+
+## Contrato Visual
+
+Os componentes consomem CSS variables geradas a partir de tokens. Isso permite que a mesma base visual seja reaproveitada futuramente em outras stacks sem depender diretamente do React.

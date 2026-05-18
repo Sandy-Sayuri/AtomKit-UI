@@ -1,0 +1,66 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Themes/Overview" />
+
+# Themes
+
+O sistema de temas da AtomKit UI aplica design tokens por CSS variables. O `AtomKitProvider` recebe um tema pronto ou um objeto de tokens customizados e disponibiliza esses valores para todos os componentes filhos.
+
+## Temas Disponiveis
+
+- `light`
+- `dark`
+- `corporate`
+- `minimal`
+- `soft`
+- `terminal`
+
+## Tokens Customizaveis
+
+```ts
+{
+  colors: {
+    primary: string;
+    secondary: string;
+    background: string;
+    surface: string;
+    text: string;
+    border: string;
+  };
+  radius: string;
+  spacing: string;
+  shadow: string;
+  fontFamily: string;
+  density: "compact" | "comfortable";
+}
+```
+
+## Troca de Tema
+
+```tsx
+<AtomKitProvider theme="terminal">
+  <Button>Executar</Button>
+</AtomKitProvider>
+```
+
+## Customizacao
+
+```tsx
+<AtomKitProvider
+  theme="corporate"
+  tokens={{
+    colors: {
+      primary: "#0f766e",
+      primaryHover: "#115e59",
+    },
+    radius: "10px",
+    density: "compact",
+  }}
+>
+  <Card title="Customizado">
+    <Button>Salvar</Button>
+  </Card>
+</AtomKitProvider>
+```
+
+Veja `Themes/AtomKitProvider` para exemplos visuais com todos os temas.

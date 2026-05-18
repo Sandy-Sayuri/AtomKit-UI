@@ -1,0 +1,62 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Components/Icons" />
+
+# Icons
+
+A AtomKit UI nao possui uma biblioteca propria de icones e nao obriga o uso de React Icons.
+
+Os componentes recebem icones por composicao usando `ReactNode`, o que permite usar:
+
+- React Icons
+- Lucide
+- Heroicons
+- SVG customizado
+- emojis
+- qualquer outro `ReactNode`
+
+## Exemplo com React Icons
+
+```tsx
+import { FiSearch } from "react-icons/fi";
+import { Button } from "atomkit-ui";
+
+<Button iconLeft={<FiSearch />}>Buscar</Button>
+```
+
+## Exemplo com SVG Customizado
+
+```tsx
+<Button
+  iconLeft={
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 5v14M5 12h14" />
+    </svg>
+  }
+>
+  Criar
+</Button>
+```
+
+## Exemplo com Emoji
+
+```tsx
+<Badge icon="✅" variant="success">
+  Ativo
+</Badge>
+```
+
+## Componentes com Suporte a Icones
+
+- `Button`: `icon`, `iconLeft`, `iconRight`, `iconTop`, `iconBottom`, `iconOnly`, `gap`
+- `IconButton`: `icon`
+- `Input`: `iconLeft`, `iconRight`
+- `Card`: `icon`, `actions`
+- `Alert`: `icon`, `iconPosition`
+- `Badge`: `icon`, `iconLeft`, `iconRight`
+- `Tooltip`: `icon`
+- `Accordion`: `item.icon`
+- `Tabs`: `item.icon`
+- `DataTable`: `columns[].labelIcon`, `columns[].labelIconPosition`, `rowActions[].icon` e cells customizadas via `columns[].render`
+- `EmptyState`: `icon`
+- `StatsCard`: `icon`

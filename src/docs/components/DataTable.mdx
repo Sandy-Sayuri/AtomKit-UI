@@ -1,0 +1,48 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Components/DataTable" />
+
+# DataTable
+
+Organismo para renderizacao tabular generica. O componente nao possui regra de negocio: recebe colunas, dados, renderizadores e callbacks do consumidor.
+
+## Quando Usar
+
+- Listagens administrativas
+- Tabelas simples com sorting local
+- Selecao de linhas e acoes por registro
+- Estados de carregamento e vazio
+
+## Props Principais
+
+| Prop | Tipo | Descricao |
+| --- | --- | --- |
+| `columns` | `DataTableColumn<T>[]` | Configuracao das colunas |
+| `data` | `T[]` | Dados renderizados |
+| `loading` | `boolean` | Mostra estado de carregamento |
+| `emptyState` | `ReactNode` | Conteudo para tabela vazia |
+| `rowActions` | `DataTableAction<T>[]` | Acoes por linha |
+| `selectable` | `boolean` | Habilita selecao |
+| `density` | `compact`, `comfortable` | Densidade visual |
+| `striped` / `bordered` | `boolean` | Estilos de tabela |
+
+## Exemplo
+
+```tsx
+const columns = [
+  { key: "name", header: "Nome", sortable: true },
+  { key: "role", header: "Area" },
+];
+
+<DataTable
+  columns={columns}
+  data={users}
+  selectable
+  striped
+  bordered
+/>
+```
+
+## Variacoes Documentadas
+
+Veja as stories em `Organisms/DataTable` para sorting, loading, empty state, acoes, selecao e densidade.

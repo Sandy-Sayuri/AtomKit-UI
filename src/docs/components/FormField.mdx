@@ -1,0 +1,38 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Components/FormField" />
+
+# FormField
+
+Molecula que combina label, input, estado obrigatorio, helper text e erro. `Field` continua disponivel como alias para compatibilidade.
+
+## Quando Usar
+
+- Formularios com label acessivel
+- Campos com validacao visual
+- Entradas que precisam de helper text ou mensagem de erro
+
+## Props Principais
+
+| Prop | Tipo | Descricao |
+| --- | --- | --- |
+| `label` | `string` | Texto do label |
+| `required` | `boolean` | Marca o campo como obrigatorio |
+| `helperText` | `string` | Texto auxiliar |
+| `error` | `string` | Mensagem de erro |
+| `size` | `sm`, `md`, `lg`, `xl` | Tamanho repassado ao input |
+
+## Exemplo
+
+```tsx
+<FormField
+  label="Email"
+  placeholder="nome@email.com"
+  helperText="Usado para notificacoes."
+  required
+/>
+```
+
+## Variacoes Documentadas
+
+Veja as stories em `Molecules/FormField` para estado padrao e erro.

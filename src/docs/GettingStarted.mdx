@@ -1,40 +1,60 @@
 import { Meta } from "@storybook/blocks";
+import { Alert, Button, Card, FormField, Section, Tabs } from "../index";
+import { CodeBlock, DocsPage } from "./internal";
 
 <Meta title="Docs/Getting Started" />
 
-# Getting Started
+<DocsPage
+  title="Getting Started"
+  status="planned"
+  description="Uso esperado da AtomKit UI quando o pacote estiver pronto para consumo externo. O projeto ainda nao foi publicado no npm."
+>
+  <Alert title="Publicacao futura" variant="warning">
+    A biblioteca ainda nao deve ser publicada no npm. Os exemplos abaixo documentam o contrato de uso planejado.
+  </Alert>
 
-Esta documentacao descreve o uso esperado da AtomKit UI quando o pacote estiver pronto para consumo externo. O projeto ainda nao foi publicado no npm.
-
-## Instalacao Futura
-
-```bash
-npm install atomkit-ui
-```
-
-## Importacao
-
-```tsx
-import { AtomKitProvider, Button, Card, FormField } from "atomkit-ui";
-import "atomkit-ui/styles";
-```
-
-## Provider de Tema
-
-Use o `AtomKitProvider` para aplicar um tema pronto ou tokens customizados em uma area da interface.
-
-```tsx
-<AtomKitProvider theme="dark">
+  <Section title="Fluxo Basico" description="Instalar, importar estilos, aplicar provider e compor componentes.">
+    <Tabs
+      items={[
+        {
+          id: "install",
+          label: "Instalacao",
+          content: <CodeBlock language="bash" title="Instalacao futura">{`npm install atomkit-ui`}</CodeBlock>,
+        },
+        {
+          id: "import",
+          label: "Importacao",
+          content: (
+            <CodeBlock title="Imports">
+{`import { AtomKitProvider, Button, Card, FormField } from "atomkit-ui";
+import "atomkit-ui/styles";`}
+            </CodeBlock>
+          ),
+        },
+        {
+          id: "provider",
+          label: "Provider",
+          content: (
+            <CodeBlock title="Provider de tema">
+{`<AtomKitProvider theme="dark">
   <Button>Acao</Button>
-</AtomKitProvider>
-```
+</AtomKitProvider>`}
+            </CodeBlock>
+          ),
+        },
+      ]}
+    />
+  </Section>
 
-## Override Parcial
+  <Section title="Exemplo Visual" description="O mesmo padrao documentado e renderizado com componentes reais.">
+    <Card title="Usuario" description="Dados basicos" footer={<Button variant="primary">Salvar</Button>} variant="outlined">
+      <FormField label="Nome" placeholder="Digite seu nome" required />
+    </Card>
+  </Section>
 
-Nao e necessario redefinir todos os tokens. A biblioteca faz merge entre o tema base e os overrides informados.
-
-```tsx
-<AtomKitProvider
+  <Section title="Override Parcial">
+    <CodeBlock title="Tokens customizados">
+{`<AtomKitProvider
   theme="light"
   tokens={{
     colors: {
@@ -47,18 +67,7 @@ Nao e necessario redefinir todos os tokens. A biblioteca faz merge entre o tema 
   }}
 >
   <Button>Acao customizada</Button>
-</AtomKitProvider>
-```
-
-## Uso de Componentes
-
-```tsx
-<Card title="Usuario" description="Dados basicos">
-  <FormField label="Nome" placeholder="Digite seu nome" required />
-  <Button variant="primary">Salvar</Button>
-</Card>
-```
-
-## Contrato Visual
-
-Os componentes consomem CSS variables geradas a partir de tokens. Isso permite que a mesma base visual seja reaproveitada futuramente em outras stacks sem depender diretamente do React.
+</AtomKitProvider>`}
+    </CodeBlock>
+  </Section>
+</DocsPage>

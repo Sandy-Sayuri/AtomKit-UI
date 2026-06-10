@@ -1,33 +1,47 @@
 import { Meta } from "@storybook/blocks";
+import { Badge, Button, Card, DataTable, Section } from "../../index";
+import { CodeBlock, DocsPage, PropsTable } from "../internal";
 
 <Meta title="Components/Icons" />
 
-# Icons
+<DocsPage title="Icons" status="stable" description="A AtomKit UI aceita icones por composicao com ReactNode e nao obriga uma biblioteca especifica.">
+  <Section title="Compatibilidade" description="React Icons, Lucide, Heroicons, SVG customizado, emojis, imagens pequenas ou qualquer ReactNode.">
+    <div className="ak-docs-grid">
+      <Card title="Button" variant="outlined"><Button iconLeft="🔎">Buscar</Button></Card>
+      <Card title="Badge" variant="outlined"><Badge iconLeft="✓" variant="success">Ativo</Badge></Card>
+      <Card title="DataTable" variant="outlined">
+        <DataTable
+          columns={[{ header: "Item", key: "item", labelIcon: "◆" }, { header: "Status", key: "status" }]}
+          data={[{ item: "ReactNode", status: "Suportado" }]}
+          density="compact"
+        />
+      </Card>
+    </div>
+  </Section>
 
-A AtomKit UI nao possui uma biblioteca propria de icones e nao obriga o uso de React Icons.
+  <Section title="Componentes com Suporte">
+    <PropsTable
+      rows={[
+        { name: "Button", type: "icon | iconLeft | iconRight | iconTop | iconBottom", description: "Icones em acoes." },
+        { name: "IconButton", type: "icon", description: "Botao somente com icone." },
+        { name: "Input", type: "iconLeft | iconRight", description: "Icones laterais." },
+        { name: "Card", type: "icon | actions", description: "Icone no header e acoes customizadas." },
+        { name: "Alert", type: "icon | iconPosition", description: "Icone customizado." },
+        { name: "Badge", type: "iconLeft | iconRight", description: "Marcadores com icone." },
+        { name: "DataTable", type: "labelIcon | rowActions.icon | render", description: "Icones em colunas, acoes e cells." },
+      ]}
+    />
+  </Section>
 
-Os componentes recebem icones por composicao usando `ReactNode`, o que permite usar:
-
-- React Icons
-- Lucide
-- Heroicons
-- SVG customizado
-- emojis
-- qualquer outro `ReactNode`
-
-## Exemplo com React Icons
-
-```tsx
-import { FiSearch } from "react-icons/fi";
+  <CodeBlock title="React Icons">
+{`import { FiSearch } from "react-icons/fi";
 import { Button } from "atomkit-ui";
 
-<Button iconLeft={<FiSearch />}>Buscar</Button>
-```
+<Button iconLeft={<FiSearch />}>Buscar</Button>`}
+  </CodeBlock>
 
-## Exemplo com SVG Customizado
-
-```tsx
-<Button
+  <CodeBlock title="SVG customizado">
+{`<Button
   iconLeft={
     <svg viewBox="0 0 24 24" aria-hidden="true">
       <path d="M12 5v14M5 12h14" />
@@ -35,28 +49,6 @@ import { Button } from "atomkit-ui";
   }
 >
   Criar
-</Button>
-```
-
-## Exemplo com Emoji
-
-```tsx
-<Badge icon="✅" variant="success">
-  Ativo
-</Badge>
-```
-
-## Componentes com Suporte a Icones
-
-- `Button`: `icon`, `iconLeft`, `iconRight`, `iconTop`, `iconBottom`, `iconOnly`, `gap`
-- `IconButton`: `icon`
-- `Input`: `iconLeft`, `iconRight`
-- `Card`: `icon`, `actions`
-- `Alert`: `icon`, `iconPosition`
-- `Badge`: `icon`, `iconLeft`, `iconRight`
-- `Tooltip`: `icon`
-- `Accordion`: `item.icon`
-- `Tabs`: `item.icon`
-- `DataTable`: `columns[].labelIcon`, `columns[].labelIconPosition`, `rowActions[].icon` e cells customizadas via `columns[].render`
-- `EmptyState`: `icon`
-- `StatsCard`: `icon`
+</Button>`}
+  </CodeBlock>
+</DocsPage>

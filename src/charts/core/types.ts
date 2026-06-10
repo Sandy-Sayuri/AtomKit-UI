@@ -30,6 +30,8 @@ export interface ChartTooltipPayload {
   label: string;
   series?: string;
   value: number;
+  x?: number;
+  y?: number;
 }
 
 export interface ChartColors {
@@ -52,9 +54,11 @@ export interface BaseChartProps {
   legend?: boolean;
   loading?: boolean;
   loadingState?: ReactNode;
+  renderTooltip?: (payload: ChartTooltipPayload) => ReactNode;
   showLegend?: boolean;
   showTooltip?: boolean;
   style?: CSSProperties;
+  tooltipStyle?: CSSProperties;
   width?: number;
 }
 

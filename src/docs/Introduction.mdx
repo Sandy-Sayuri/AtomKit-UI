@@ -1,58 +1,91 @@
 import { Meta } from "@storybook/blocks";
+import { Badge, Button, Card, DataTable, FormField, LineChart, Section, StatsCard, Tabs } from "../index";
+import { DocsPage, CodeBlock } from "./internal";
+import { salesData } from "../mocks/charts";
 
 <Meta title="Docs/Introduction" />
 
-# AtomKit UI
+<DocsPage
+  title="AtomKit UI"
+  status="beta"
+  description="Biblioteca de componentes React com TypeScript baseada em Atomic Design, focada em customizacao visual, design tokens e temas."
+>
+  <Section
+    title="Objetivo"
+    description="Padronizar interfaces, acelerar a construcao de aplicacoes web e permitir que cada produto aplique sua identidade visual sem reescrever componentes."
+  >
+    <div className="ak-docs-grid">
+      <StatsCard label="Stack" value="React + TS" trend="Vite" />
+      <StatsCard label="Temas" value="6" trend="tokens" />
+      <StatsCard label="Charts" value="SVG" trend="sem libs externas" />
+    </div>
+  </Section>
 
-AtomKit UI e uma biblioteca de componentes React com TypeScript baseada em Atomic Design. O foco principal e oferecer componentes reutilizaveis, bem tipados e visualmente customizaveis por meio de design tokens e temas.
+  <Section title="Status do Projeto" description="Projeto em progresso, preparado para publicacao futura no npm.">
+    <Card title="Base atual" description="Build, Storybook, temas, tokens e componentes iniciais ja estao estruturados." variant="outlined">
+      <div className="ak-docs-row">
+        <Badge variant="success">design tokens</Badge>
+        <Badge variant="info">Storybook</Badge>
+        <Badge variant="warning">charts experimentais</Badge>
+        <Badge>npm futuro</Badge>
+      </div>
+    </Card>
+  </Section>
 
-## Objetivo
+  <Section title="Stack e Foco Tecnico">
+    <Tabs
+      items={[
+        {
+          id: "stack",
+          label: "Stack",
+          content: (
+            <DataTable
+              bordered
+              columns={[
+                { header: "Camada", key: "layer" },
+                { header: "Tecnologia", key: "tool" },
+              ]}
+              data={[
+                { layer: "UI", tool: "React" },
+                { layer: "Tipos", tool: "TypeScript" },
+                { layer: "Build", tool: "Vite" },
+                { layer: "Docs", tool: "Storybook" },
+              ]}
+              density="compact"
+            />
+          ),
+        },
+        {
+          id: "focus",
+          label: "Foco",
+          content: (
+            <div className="ak-docs-grid">
+              <Card title="Temas" description="light, dark, corporate, minimal, soft e terminal." variant="outlined">
+                <Button size="sm">Trocar tema</Button>
+              </Card>
+              <Card title="Tokens" description="CSS variables como contrato visual." variant="outlined">
+                <Badge variant="info">override parcial</Badge>
+              </Card>
+            </div>
+          ),
+        },
+      ]}
+    />
+  </Section>
 
-Criar uma base de componentes que ajude a padronizar interfaces, acelerar a construcao de aplicacoes web e permitir que cada produto aplique sua propria identidade visual sem reescrever componentes.
+  <Section title="Preview Real" description="A propria documentacao renderiza componentes da biblioteca.">
+    <div className="ak-docs-grid">
+      <Card title="Cadastro" description="Componentes usando tokens do tema." footer={<Button>Salvar</Button>}>
+        <FormField label="Email" placeholder="nome@email.com" required />
+      </Card>
+      <Card title="Metricas" description="Grafico SVG autoral.">
+        <LineChart data={salesData} height={180} showGrid showTooltip xKey="month" yKey="value" />
+      </Card>
+    </div>
+  </Section>
 
-## Status do Projeto
-
-Projeto em progresso. A biblioteca ja possui estrutura de build, documentacao com Storybook, design tokens, provider de tema e um conjunto inicial de componentes.
-
-## Stack
-
-- React
-- TypeScript
-- Vite
-- Storybook
-- npm
-- Atomic Design
-
-## Foco Tecnico
-
-- Temas prontos: `light`, `dark`, `corporate`, `minimal`, `soft` e `terminal`
-- Override parcial de tokens por projeto
-- CSS variables como contrato visual
-- Componentes independentes de regra de negocio
-- Arquitetura preparada para reaproveitar tokens em outras stacks, incluindo Angular
-
-## Componentes Disponiveis
-
-- `Button`
-- `Input`
-- `FormField`
-- `Card`
-- `Badge`
-- `DataTable`
-
-## Graficos Disponiveis
-
-- `LineChart`
-- `BarChart`
-- `AreaChart`
-- `PieChart`
-- `DonutChart`
-- `Sparkline`
-
-## Exemplo Rapido
-
-```tsx
-import { AtomKitProvider, Button, Card, FormField } from "atomkit-ui";
+  <CodeBlock title="Exemplo rapido">
+{`import { AtomKitProvider, Button, Card, FormField } from "atomkit-ui";
 import "atomkit-ui/styles";
 
 export function App() {
@@ -64,5 +97,6 @@ export function App() {
       </Card>
     </AtomKitProvider>
   );
-}
-```
+}`}
+  </CodeBlock>
+</DocsPage>

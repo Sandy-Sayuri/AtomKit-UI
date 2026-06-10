@@ -3,6 +3,7 @@ import { Menu } from "../navigation";
 import type { MenuItemData } from "../navigation";
 
 export interface SidebarProps<TRole extends string = string> {
+  children?: ReactNode;
   collapsed?: boolean;
   collapsible?: boolean;
   currentRole?: TRole;
@@ -13,6 +14,7 @@ export interface SidebarProps<TRole extends string = string> {
 }
 
 export function Sidebar<TRole extends string = string>({
+  children,
   collapsed = false,
   collapsible = false,
   currentRole,
@@ -31,7 +33,7 @@ export function Sidebar<TRole extends string = string>({
       style={{ "--ak-sidebar-width": sidebarWidth } as CSSProperties}
     >
       {profileSlot ? <div className="ak-sidebar__profile">{profileSlot}</div> : null}
-      <Menu currentRole={currentRole} items={items} />
+      {children ?? <Menu currentRole={currentRole} items={items} />}
       {footer ? <div className="ak-sidebar__footer">{footer}</div> : null}
     </aside>
   );

@@ -1,37 +1,35 @@
 import { Meta } from "@storybook/blocks";
+import { Card, Input, Section } from "../../index";
+import { CodeBlock, DocsPage, PropsTable } from "../internal";
 
 <Meta title="Components/Input" />
 
-# Input
+<DocsPage title="Input" status="stable" description="Componente atomico para entrada de texto com tamanhos, erro, helper text e icones.">
+  <Section title="Exemplos Visuais">
+    <div className="ak-docs-grid">
+      <Card title="Padrao" variant="outlined"><Input placeholder="nome@email.com" helperText="Use um email valido." iconLeft="@" /></Card>
+      <Card title="Erro" variant="outlined"><Input error helperText="Campo obrigatorio." placeholder="Documento" /></Card>
+      <Card title="Disabled" variant="outlined"><Input disabled placeholder="Campo bloqueado" /></Card>
+    </div>
+  </Section>
 
-Componente atomico para entrada de texto. Ele suporta tokens de tema, tamanhos, estados de erro, estado disabled, helper text e icones laterais.
+  <Section title="Props Principais">
+    <PropsTable
+      rows={[
+        { name: "size", type: '"sm" | "md" | "lg" | "xl"', defaultValue: '"md"', description: "Define altura e escala do campo." },
+        { name: "error", type: "boolean", description: "Aplica estado visual de erro." },
+        { name: "helperText", type: "string", description: "Texto de apoio abaixo do campo." },
+        { name: "iconLeft / iconRight", type: "ReactNode", description: "Elementos laterais." },
+        { name: "disabled", type: "boolean", description: "Bloqueia interacao." },
+      ]}
+    />
+  </Section>
 
-## Quando Usar
-
-- Campos simples de texto
-- Entradas com icones contextuais
-- Campos controlados ou nao controlados pelo consumidor
-
-## Props Principais
-
-| Prop | Tipo | Descricao |
-| --- | --- | --- |
-| `size` | `sm`, `md`, `lg`, `xl` | Define altura e escala do campo |
-| `error` | `boolean` | Aplica estado visual de erro |
-| `helperText` | `string` | Texto de apoio abaixo do campo |
-| `iconLeft` / `iconRight` | `ReactNode` | Elementos laterais |
-| `disabled` | `boolean` | Bloqueia interacao |
-
-## Exemplo
-
-```tsx
-<Input
+  <CodeBlock title="Uso">
+{`<Input
   placeholder="nome@email.com"
   helperText="Use um email valido."
   iconLeft="@"
-/>
-```
-
-## Variacoes Documentadas
-
-Veja as stories em `Atoms/Input` para tamanhos, erro, disabled e icones.
+/>`}
+  </CodeBlock>
+</DocsPage>

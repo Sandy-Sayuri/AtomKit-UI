@@ -19,6 +19,8 @@
   },
   "scripts": {
     "dev": "storybook dev -p 6006",
+    "docs": "vite --config vite.docs.config.ts",
+    "build-docs": "vite build --config vite.docs.config.ts",
     "build": "tsc -p tsconfig.build.json && vite build",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",

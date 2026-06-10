@@ -1,6 +1,8 @@
 node_modules
 dist
 storybook-static
+docs-static
 .storybook.*.log
+.docs-app.*.log
 .env
 .DS_Store

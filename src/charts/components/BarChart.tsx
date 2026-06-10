@@ -14,12 +14,14 @@ export function BarChart({
   loading = false,
   loadingState,
   radius = 4,
+  renderTooltip,
   showGrid = true,
   showLegend,
   showTooltip = true,
   showXAxis = true,
   showYAxis = false,
   style,
+  tooltipStyle,
   width = 640,
   xKey = "label",
   yKey = "value",
@@ -46,8 +48,11 @@ export function BarChart({
       legendItems={[{ color: colors?.bar ?? colors?.line ?? "var(--ak-color-primary)", label: yKey }]}
       loading={loading}
       loadingState={loadingState}
+      renderTooltip={renderTooltip}
       style={chartStyle}
       tooltip={showTooltip ? tooltip : null}
+      tooltipStyle={tooltipStyle}
+      width={width}
     >
       <svg className="ak-chart__svg" role="img" viewBox={`0 0 ${width} ${height}`}>
         {showGrid
@@ -60,15 +65,20 @@ export function BarChart({
           const x = area.x + index * (barWidth + barGap);
           const y = yScale.scale(Math.max(0, item.value));
           const barHeight = Math.abs(baseline - yScale.scale(item.value));
+          const anchorY = item.value >= 0 ? y : baseline + barHeight;
+          const tooltipPayload = { ...item, x: x + barWidth / 2, y: anchorY };
 
           return (
             <g key={item.label}>
               <rect
                 className="ak-chart__bar"
                 height={barHeight}
-                onMouseEnter={() => setTooltip(item)}
+                onBlur={() => setTooltip(null)}
+                onFocus={() => setTooltip(tooltipPayload)}
+                onMouseEnter={() => setTooltip(tooltipPayload)}
                 onMouseLeave={() => setTooltip(null)}
                 rx={radius}
+                tabIndex={0}
                 width={barWidth}
                 x={x}
                 y={item.value >= 0 ? y : baseline}

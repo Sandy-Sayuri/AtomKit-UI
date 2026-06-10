@@ -128,11 +128,12 @@ A biblioteca tambem inclui componentes visuais para montar estruturas de aplicac
 - `AppShell`
 - `Header`
 - `Footer`
-- `Sidebar`
+- `Sidebar`: renderiza `Menu` por `items` ou aceita `children` para composicoes como `NavigationTree`.
 - `Container`
 - `Section`
 - `Menu`
 - `MenuItem`
+- `NavigationTree`
 - `DropdownMenu`
 - `NestedMenu`
 - `Breadcrumb`
@@ -173,6 +174,55 @@ Os helpers abaixo sao apenas visuais. Eles nao substituem autenticacao, autoriza
 <RenderByRole allowedRoles={["admin"]} currentRole="admin">
   <Button>Editar configuracoes</Button>
 </RenderByRole>
+```
+
+## NavigationTree
+
+`NavigationTree` e um menu lateral hierarquico inspirado em sidebars de documentacao. Ele suporta grupos, multiplos niveis, busca, estados ativos, badges, icones, emojis, links externos, itens disabled, footer/header customizados, modo compacto, largura/altura customizadas e overrides visuais por props.
+
+```tsx
+<NavigationTree
+  title="AtomKit UI"
+  searchable
+  activeId="form-field"
+  indentSize={18}
+  themeOverrides={{
+    background: "#111827",
+    textColor: "#e5e7eb",
+    activeBackground: "#2563eb",
+    activeTextColor: "#ffffff",
+    groupLabelColor: "#94a3b8",
+    hoverBackground: "#1f2937",
+    radius: "8px",
+  }}
+  groups={[
+    {
+      id: "docs",
+      label: "Docs",
+      emoji: "📘",
+      defaultOpen: true,
+      items: [
+        { id: "introduction", label: "Introduction", emoji: "📄" },
+        { id: "getting-started", label: "Getting Started" },
+      ],
+    },
+    {
+      id: "components",
+      label: "Components",
+      emoji: "🧩",
+      defaultOpen: true,
+      items: [
+        { id: "button", label: "Button" },
+        {
+          id: "form-field",
+          label: "FormField",
+          badge: "stable",
+          children: [{ id: "basic-example", label: "Basic Example" }],
+        },
+      ],
+    },
+  ]}
+/>
 ```
 
 ## Icones Externos
@@ -225,6 +275,16 @@ A biblioteca possui um sistema autoral de graficos em `src/charts`, construido c
 
 Os graficos usam os mesmos design tokens da AtomKit UI e respeitam `AtomKitProvider`, temas prontos e overrides parciais.
 
+Tooltips dos graficos ficam ancorados no elemento ativo:
+
+- `LineChart`, `AreaChart` e `Sparkline`: tooltip proximo ao ponto ativo.
+- `BarChart`: tooltip proximo a barra ativa.
+- `PieChart` e `DonutChart`: tooltip proximo a fatia ativa.
+- Hover e foco por teclado sao suportados.
+- A posicao e ajustada automaticamente para evitar que o tooltip saia da area visivel do grafico.
+- `renderTooltip` permite substituir o conteudo.
+- `tooltipStyle` permite sobrescrever cores, radius, sombra e tipografia sem quebrar os tokens globais.
+
 Exemplo:
 
 ```tsx
@@ -246,6 +306,31 @@ Exemplo:
 />
 ```
 
+Exemplo com tooltip customizado:
+
+```tsx
+<LineChart
+  data={salesData}
+  xKey="month"
+  yKey="value"
+  showTooltip
+  renderTooltip={(payload) => (
+    <div>
+      <strong>{payload.label}</strong>
+      <div>{payload.value} vendas</div>
+    </div>
+  )}
+  tooltipStyle={{
+    background: "#111827",
+    border: "1px solid #374151",
+    borderRadius: 10,
+    boxShadow: "0 16px 40px rgba(17, 24, 39, 0.22)",
+    color: "#ffffff",
+    fontFamily: "Inter, sans-serif",
+  }}
+/>
+```
+
 ## Storybook
 
 ```bash
@@ -255,16 +340,37 @@ npm run storybook
 
 A story `Theme/AtomKitProvider` documenta a troca de temas e exemplos de customizacao parcial.
 
+## Documentation App proprio
+
+O projeto tambem possui um site proprio de documentacao, separado do Storybook, em `docs-app/`.
+
+```bash
+npm run docs
+```
+
+Abra a URL mostrada pelo Vite, normalmente:
+
+```txt
+http://127.0.0.1:5173
+```
+
+Esse app usa `vite.docs.config.ts`, importa componentes pela API publica local em `src/index.ts` e renderiza a documentacao com `AtomKitProvider`, `AppShell`, `Header`, `Sidebar`, `NavigationTree`, `Card`, `Button`, `Badge`, `Tooltip`, `Accordion`, `DataTable`, `FormField`, `Input` e charts SVG. Para gerar a versao estatica:
+
+```bash
+npm run build-docs
+```
+
 ## Showcase com a propria AtomKit UI
 
 A documentacao tambem possui uma vitrine montada com os proprios componentes da biblioteca em `Showcase/Documentation App`.
 
 Essa tela usa componentes reais da AtomKit UI:
 
+- `AtomKitProvider`
 - `AppShell`
 - `Header`
 - `Sidebar`
-- `Menu`
+- `NavigationTree`
 - `Button`
 - `Card`
 - `Badge`
@@ -272,10 +378,22 @@ Essa tela usa componentes reais da AtomKit UI:
 - `Accordion`
 - `DataTable`
 - `FormField`
-- charts SVG
+- `Input`
+- charts SVG (`LineChart`, `BarChart`, `DonutChart`, `Sparkline`)
 - design tokens e temas via `AtomKitProvider`
 
-O showcase permite alternar entre `light`, `dark`, `corporate`, `minimal`, `soft` e `terminal`, atualizando visualmente a propria documentacao. Tambem existe a story `Showcase/System Preview`, que mostra uma tela ficticia combinando layout, cards, tabela, grafico, formulario, alert e accordion.
+O showcase importa esses componentes pela API publica da biblioteca, possui uma secao **Components used on this page** e permite alternar entre `light`, `dark`, `corporate`, `minimal`, `soft` e `terminal`, atualizando visualmente a propria documentacao. Tambem existe a story `Showcase/System Preview`, que mostra uma tela ficticia combinando layout, cards, tabela, grafico, formulario, alert e accordion.
+
+## Documentacao com Componentes AtomKit
+
+As paginas MDX do Storybook tambem usam componentes internos da propria biblioteca para evitar documentacao com HTML padrao. A camada fica em `src/docs/internal`:
+
+- `DocsPage`: estrutura padrao com `AtomKitProvider`, `AppShell`, `Header`, `Container`, `Section`, `Card`, `Badge` e troca de tema.
+- `ThemeSwitcher`: alterna entre `light`, `dark`, `corporate`, `minimal`, `soft` e `terminal` e atualiza visualmente a pagina.
+- `CodeBlock`: bloco de codigo montado com `Card` e `Button` de copiar.
+- `PropsTable`: tabela de props montada com `DataTable`.
+
+Ao alterar ou criar paginas de documentacao, prefira usar componentes da AtomKit UI em vez de HTML puro quando existir componente equivalente.
 
 ## Executar no VS Code
 
@@ -299,6 +417,8 @@ As tasks equivalentes ficam em `.vscode/tasks.json`.
 ## Guia para IA
 
 O arquivo `AGENTS.md` documenta o contexto do projeto, regras para assistentes de IA, estrutura esperada, comandos de validacao e cuidados de arquitetura.
+
+Sempre que uma mudanca relevante for feita na biblioteca, atualize tambem o `README.md` e o `AGENTS.md` para manter a documentacao humana e o contexto de IA sincronizados.
 
 ## Build
 

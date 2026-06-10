@@ -1,15 +1,26 @@
 import { Meta } from "@storybook/blocks";
+import { AreaChart, Badge, BarChart, Card, DonutChart, LineChart, Section, Tabs } from "../../index";
+import { componentUsageData, salesData, themeShareData } from "../../mocks/charts";
+import { CodeBlock, DocsPage, PropsTable } from "../internal";
 
 <Meta title="Charts/Architecture" />
 
-# Charts Architecture
+<DocsPage
+  title="Charts Architecture"
+  status="experimental"
+  description="Graficos autorais feitos com SVG, React e TypeScript, sem Recharts, Chart.js, ApexCharts ou bibliotecas externas de charts."
+>
+  <Section title="Preview" description="Os exemplos abaixo usam tokens do tema atual da pagina.">
+    <div className="ak-docs-grid">
+      <Card title="LineChart" variant="outlined"><LineChart data={salesData} height={180} showTooltip xKey="month" yKey="value" /></Card>
+      <Card title="BarChart" variant="outlined"><BarChart data={componentUsageData} height={180} showTooltip xKey="name" yKey="value" /></Card>
+      <Card title="DonutChart" variant="outlined"><DonutChart data={themeShareData} height={180} labelKey="theme" valueKey="value" /></Card>
+    </div>
+  </Section>
 
-Os graficos da AtomKit UI sao componentes autorais feitos com SVG, React e TypeScript. Eles nao usam Recharts, Chart.js, ApexCharts ou bibliotecas externas de charts.
-
-## Estrutura
-
-```txt
-src/charts/
+  <Section title="Estrutura">
+    <CodeBlock language="txt" title="Arquitetura">
+{`src/charts/
   core/
     ChartFrame.tsx
     types.ts
@@ -22,87 +33,81 @@ src/charts/
     AreaChart.tsx
     PieChart.tsx
     DonutChart.tsx
-    Sparkline.tsx
+    Sparkline.tsx`}
+    </CodeBlock>
+  </Section>
 
-src/components/organisms/charts/
-  LineChart/
-  BarChart/
-  AreaChart/
-  DonutChart/
-  Sparkline/
-  chart-utils.ts
-  chart.types.ts
-```
+  <Section title="Core e Utils">
+    <Tabs
+      items={[
+        {
+          id: "core",
+          label: "Core",
+          content: (
+            <Card title="ChartFrame" description="Centraliza superficie, loading state, empty state, legenda e tooltip ancorado." variant="outlined">
+              <Badge variant="info">shared behavior</Badge>
+            </Card>
+          ),
+        },
+        {
+          id: "utils",
+          label: "Utils",
+          content: (
+            <PropsTable
+              rows={[
+                { name: "createLinearScale", type: "function", description: "Cria escala numerica simples." },
+                { name: "getValueExtent", type: "function", description: "Calcula minimo e maximo dos valores." },
+                { name: "getCoordinates", type: "function", description: "Transforma dados em coordenadas SVG." },
+                { name: "createLinePath", type: "function", description: "Gera path SVG para linhas." },
+                { name: "createAreaPath", type: "function", description: "Gera path SVG para areas." },
+                { name: "createArcPath", type: "function", description: "Gera path SVG para pie e donut." },
+              ]}
+            />
+          ),
+        },
+      ]}
+    />
+  </Section>
 
-## Core
+  <Section title="Customizacao por Grafico">
+    <PropsTable
+      rows={[
+        { name: "colors", type: "ChartColors", description: "Override manual de line, area, bar, grid, text e donut." },
+        { name: "height / width", type: "number", description: "Controle do viewBox." },
+        { name: "showGrid", type: "boolean", description: "Grid horizontal." },
+        { name: "showXAxis / showYAxis", type: "boolean", description: "Labels basicos de eixo." },
+        { name: "showTooltip", type: "boolean", description: "Tooltip ancorado ao elemento ativo." },
+        { name: "renderTooltip", type: "(payload) => ReactNode", description: "Conteudo customizado para o tooltip." },
+        { name: "tooltipStyle", type: "CSSProperties", description: "Override visual do tooltip." },
+        { name: "showLegend", type: "boolean", description: "Legenda." },
+        { name: "lineWidth / radius / fill", type: "number | boolean", description: "Ajustes visuais por tipo de grafico." },
+      ]}
+    />
+  </Section>
 
-`ChartFrame` centraliza superficie, loading state, empty state, legenda e tooltip simples. Isso evita duplicar comportamento entre graficos.
-
-## Utils
-
-- `createLinearScale`: cria escala numerica simples.
-- `getValueExtent`: calcula minimo e maximo dos valores.
-- `normalizeValue`: normaliza valores entre 0 e 1.
-- `getCoordinates`: transforma dados em coordenadas SVG.
-- `createLinePath`: gera path SVG para linhas.
-- `createAreaPath`: gera path SVG para areas.
-- `createArcPath`: gera path SVG para pie e donut.
-
-## Temas
-
-Todos os graficos usam CSS variables da AtomKit UI:
-
-```css
---ak-color-primary
---ak-color-secondary
---ak-color-surface
---ak-color-text
---ak-color-border
---ak-radius
---ak-shadow
---ak-font-family
-```
-
-Isso faz com que os graficos respeitem automaticamente `AtomKitProvider`, temas prontos e overrides parciais de tokens.
-
-## API de Dados
-
-Os graficos cartesianos aceitam dados via `data`, `xKey` e `yKey`.
-
-```tsx
-<LineChart
+  <Section title="Tooltip">
+    <Card title="Comportamento" description="O tooltip fica proximo ao ponto, barra ou fatia em hover/focus e evita sair da area visivel." variant="outlined">
+      <AreaChart data={salesData} height={180} showTooltip xKey="month" yKey="value" />
+    </Card>
+    <CodeBlock title="Tooltip customizado">
+{`<LineChart
   data={salesData}
   xKey="month"
   yKey="value"
-  height={260}
-  colors={{
-    line: "#7c3aed",
-    area: "rgba(124, 58, 237, 0.16)",
-    grid: "#e5e7eb",
-    text: "#374151",
-  }}
-  showGrid
   showTooltip
-  showLegend
-  animated
-/>
-```
-
-Os dados mockados do Storybook ficam em `src/mocks/charts.ts`.
-
-## Customizacao por Grafico
-
-- `colors`: override manual de `line`, `area`, `bar`, `grid`, `text` e `donut`
-- `height` e `width`: controle do `viewBox`
-- `showGrid`: grid horizontal
-- `showXAxis` e `showYAxis`: labels basicos de eixo
-- `showTooltip`: tooltip simples
-- `showLegend`: legenda
-- `lineWidth`: espessura de linha
-- `radius`: radius das barras
-- `fill`: preenchimento em area chart
-- `animated`: animações SVG/CSS leves
-
-## Escopo Atual
-
-O objetivo desta primeira versao e componentizacao, responsividade e customizacao visual. Recursos como zoom, drag, brush selection e engine avancada de series ficam fora do escopo por enquanto.
+  renderTooltip={(payload) => (
+    <div>
+      <strong>{payload.label}</strong>
+      <div>{payload.value} vendas</div>
+    </div>
+  )}
+  tooltipStyle={{
+    background: "#111827",
+    borderRadius: 10,
+    boxShadow: "0 16px 40px rgba(17, 24, 39, 0.22)",
+    color: "#ffffff",
+  }}
+/>`}
+    </CodeBlock>
+  </Section>
+</DocsPage>

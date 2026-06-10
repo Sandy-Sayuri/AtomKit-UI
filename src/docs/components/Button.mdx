@@ -1,40 +1,51 @@
 import { Meta } from "@storybook/blocks";
+import { Button, Card, Section } from "../../index";
+import { CodeBlock, DocsPage, PropsTable } from "../internal";
 
 <Meta title="Components/Button" />
 
-# Button
+<DocsPage title="Button" status="stable" description="Componente atomico para acoes de interface.">
+  <Section title="Quando usar" description="Acoes primarias, secundarias, destrutivas, links visuais e estados de carregamento.">
+    <div className="ak-docs-row">
+      <Button variant="primary">Salvar</Button>
+      <Button variant="secondary">Duplicar</Button>
+      <Button variant="outline">Novo item</Button>
+      <Button variant="ghost">Cancelar</Button>
+      <Button variant="danger">Excluir</Button>
+      <Button variant="success">Aprovar</Button>
+      <Button variant="link">Ver detalhes</Button>
+    </div>
+  </Section>
 
-Componente atomico para acoes de interface. Use para confirmar, navegar, executar tarefas ou abrir fluxos.
+  <Section title="Props Principais">
+    <PropsTable
+      rows={[
+        { name: "variant", type: '"primary" | "secondary" | "outline" | "ghost" | "danger" | "success" | "link"', defaultValue: '"primary"', description: "Define a intencao visual." },
+        { name: "size", type: '"sm" | "md" | "lg" | "xl"', defaultValue: '"md"', description: "Define altura, padding e escala." },
+        { name: "loading", type: "boolean", defaultValue: "false", description: "Mostra spinner e desabilita o botao." },
+        { name: "fullWidth", type: "boolean", defaultValue: "false", description: "Ocupa toda a largura disponivel." },
+        { name: "iconLeft / iconRight", type: "ReactNode", description: "Renderiza icones ou elementos laterais." },
+      ]}
+    />
+  </Section>
 
-## Quando Usar
+  <Section title="Exemplo Visual">
+    <Card title="Toolbar" description="Composicao real usando botoes." variant="outlined">
+      <div className="ak-docs-row">
+        <Button iconLeft="+">Novo</Button>
+        <Button iconRight=">" variant="outline">Continuar</Button>
+        <Button loading>Processando</Button>
+      </div>
+    </Card>
+  </Section>
 
-- Acoes primarias e secundarias em formularios
-- Acoes destrutivas com `danger`
-- Links visuais com `link`
-- Acoes com feedback de carregamento
-
-## Props Principais
-
-| Prop | Tipo | Descricao |
-| --- | --- | --- |
-| `variant` | `primary`, `secondary`, `outline`, `ghost`, `danger`, `success`, `link` | Define a intencao visual |
-| `size` | `sm`, `md`, `lg`, `xl` | Define altura, padding e escala |
-| `loading` | `boolean` | Mostra spinner e desabilita o botao |
-| `fullWidth` | `boolean` | Ocupa toda a largura disponivel |
-| `iconLeft` / `iconRight` | `ReactNode` | Renderiza icones ou elementos laterais |
-
-## Exemplo
-
-```tsx
-<Button variant="primary" size="md" loading={false}>
+  <CodeBlock title="Uso">
+{`<Button variant="primary" size="md" loading={false}>
   Salvar
 </Button>
 
 <Button variant="outline" iconLeft="+">
   Novo item
-</Button>
-```
-
-## Variacoes Documentadas
-
-Veja as stories em `Atoms/Button` para variantes, tamanhos, loading, disabled, full width e icones.
+</Button>`}
+  </CodeBlock>
+</DocsPage>

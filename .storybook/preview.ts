@@ -24,7 +24,7 @@ const preview: Preview = {
           "Layout",
           ["AppShell", "Primitives"],
           "Navigation",
-          ["Menu", "DropdownMenu", "Breadcrumb"],
+          ["NavigationTree", "Menu", "DropdownMenu", "Breadcrumb"],
           "Conditional Rendering",
           "Components",
           [

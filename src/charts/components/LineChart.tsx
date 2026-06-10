@@ -14,12 +14,14 @@ export function LineChart({
   legend = false,
   loading = false,
   loadingState,
+  renderTooltip,
   showGrid = true,
   showLegend,
   showTooltip = true,
   showXAxis = true,
   showYAxis = false,
   style,
+  tooltipStyle,
   width = 640,
   xKey = "label",
   yKey = "value",
@@ -47,8 +49,11 @@ export function LineChart({
       legendItems={[{ color: colors?.line ?? "var(--ak-color-primary)", label: yKey }]}
       loading={loading}
       loadingState={loadingState}
+      renderTooltip={renderTooltip}
       style={chartStyle}
       tooltip={showTooltip ? tooltip : null}
+      tooltipStyle={tooltipStyle}
+      width={width}
     >
       <svg className="ak-chart__svg" role="img" viewBox={`0 0 ${width} ${height}`}>
         {showGrid

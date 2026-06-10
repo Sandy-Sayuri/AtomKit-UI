@@ -1,31 +1,34 @@
 import { Meta } from "@storybook/blocks";
+import { Badge, Card, Section } from "../../index";
+import { CodeBlock, DocsPage, PropsTable } from "../internal";
 
 <Meta title="Components/Badge" />
 
-# Badge
+<DocsPage title="Badge" status="stable" description="Componente atomico para status, categorias e marcadores curtos.">
+  <Section title="Variantes">
+    <Card title="Status" variant="outlined">
+      <div className="ak-docs-row">
+        <Badge>Default</Badge>
+        <Badge variant="success">Ativo</Badge>
+        <Badge variant="warning">Pendente</Badge>
+        <Badge variant="danger">Bloqueado</Badge>
+        <Badge variant="info">Info</Badge>
+      </div>
+    </Card>
+  </Section>
 
-Componente atomico para representar status, categorias ou marcadores curtos.
+  <Section title="Props Principais">
+    <PropsTable
+      rows={[
+        { name: "variant", type: '"default" | "success" | "warning" | "danger" | "info"', defaultValue: '"default"', description: "Define intencao visual." },
+        { name: "size", type: '"sm" | "md" | "lg"', defaultValue: '"md"', description: "Define escala." },
+        { name: "iconLeft / iconRight", type: "ReactNode", description: "Renderiza icones ou elementos laterais." },
+      ]}
+    />
+  </Section>
 
-## Quando Usar
-
-- Status de registro
-- Estados de processo
-- Etiquetas curtas em tabelas e cards
-
-## Props Principais
-
-| Prop | Tipo | Descricao |
-| --- | --- | --- |
-| `variant` | `default`, `success`, `warning`, `danger`, `info` | Define intencao visual |
-| `size` | `sm`, `md`, `lg` | Define escala |
-
-## Exemplo
-
-```tsx
-<Badge variant="success">Ativo</Badge>
-<Badge variant="warning" size="sm">Pendente</Badge>
-```
-
-## Variacoes Documentadas
-
-Veja as stories em `Atoms/Badge` para variantes e tamanhos.
+  <CodeBlock title="Uso">
+{`<Badge variant="success">Ativo</Badge>
+<Badge variant="warning" size="sm">Pendente</Badge>`}
+  </CodeBlock>
+</DocsPage>

@@ -1,38 +1,36 @@
 import { Meta } from "@storybook/blocks";
+import { Card, FormField, Section } from "../../index";
+import { CodeBlock, DocsPage, PropsTable } from "../internal";
 
 <Meta title="Components/FormField" />
 
-# FormField
+<DocsPage title="FormField" status="stable" description="Molecula que combina label, input, required, helper text e erro. Field continua disponivel como alias.">
+  <Section title="Exemplos Visuais">
+    <div className="ak-docs-grid">
+      <Card title="Cadastro" variant="outlined"><FormField label="Email" placeholder="nome@email.com" helperText="Usado para notificacoes." required /></Card>
+      <Card title="Erro" variant="outlined"><FormField label="Senha" placeholder="Digite a senha" error="Senha obrigatoria." required /></Card>
+    </div>
+  </Section>
 
-Molecula que combina label, input, estado obrigatorio, helper text e erro. `Field` continua disponivel como alias para compatibilidade.
+  <Section title="Props Principais">
+    <PropsTable
+      rows={[
+        { name: "label", type: "string", description: "Texto do label." },
+        { name: "labelIcon", type: "ReactNode", description: "Icone ou elemento no label." },
+        { name: "required", type: "boolean", description: "Marca o campo como obrigatorio." },
+        { name: "helperText", type: "string", description: "Texto auxiliar." },
+        { name: "error", type: "string", description: "Mensagem de erro." },
+        { name: "size", type: '"sm" | "md" | "lg" | "xl"', description: "Tamanho repassado ao input." },
+      ]}
+    />
+  </Section>
 
-## Quando Usar
-
-- Formularios com label acessivel
-- Campos com validacao visual
-- Entradas que precisam de helper text ou mensagem de erro
-
-## Props Principais
-
-| Prop | Tipo | Descricao |
-| --- | --- | --- |
-| `label` | `string` | Texto do label |
-| `required` | `boolean` | Marca o campo como obrigatorio |
-| `helperText` | `string` | Texto auxiliar |
-| `error` | `string` | Mensagem de erro |
-| `size` | `sm`, `md`, `lg`, `xl` | Tamanho repassado ao input |
-
-## Exemplo
-
-```tsx
-<FormField
+  <CodeBlock title="Uso">
+{`<FormField
   label="Email"
   placeholder="nome@email.com"
   helperText="Usado para notificacoes."
   required
-/>
-```
-
-## Variacoes Documentadas
-
-Veja as stories em `Molecules/FormField` para estado padrao e erro.
+/>`}
+  </CodeBlock>
+</DocsPage>

@@ -1,52 +1,65 @@
 import { Meta } from "@storybook/blocks";
+import { Badge, Button, Card, Section, Tabs } from "../../index";
+import { CodeBlock, DocsPage, PropsTable } from "../internal";
 
 <Meta title="Themes/Overview" />
 
-# Themes
+<DocsPage
+  title="Theme System"
+  status="stable"
+  description="O sistema de temas aplica design tokens por CSS variables. A troca de tema no topo desta pagina afeta todos os exemplos abaixo."
+>
+  <Section title="Temas Disponiveis" description="Temas prontos para diferentes contextos de produto.">
+    <div className="ak-docs-grid">
+      {["light", "dark", "corporate", "minimal", "soft", "terminal"].map((theme) => (
+        <Card key={theme} title={theme} description="Tema pronto consumido pelo AtomKitProvider." variant="outlined">
+          <div className="ak-docs-row">
+            <Badge variant="info">tokens</Badge>
+            <Button size="sm" variant="outline">Preview</Button>
+          </div>
+        </Card>
+      ))}
+    </div>
+  </Section>
 
-O sistema de temas da AtomKit UI aplica design tokens por CSS variables. O `AtomKitProvider` recebe um tema pronto ou um objeto de tokens customizados e disponibiliza esses valores para todos os componentes filhos.
+  <Section title="Tokens Customizaveis">
+    <PropsTable
+      rows={[
+        { name: "colors.primary", type: "string", description: "Cor principal para acoes e destaques." },
+        { name: "colors.secondary", type: "string", description: "Cor secundaria para composicoes." },
+        { name: "colors.background", type: "string", description: "Plano de fundo da aplicacao." },
+        { name: "colors.surface", type: "string", description: "Superficie de cards, tabelas e paineis." },
+        { name: "colors.text", type: "string", description: "Cor principal de texto." },
+        { name: "colors.border", type: "string", description: "Bordas e divisores." },
+        { name: "radius", type: "string", description: "Raio base dos componentes." },
+        { name: "spacing", type: "string", description: "Unidade base de espacamento." },
+        { name: "shadow", type: "string", description: "Sombra padrao." },
+        { name: "fontFamily", type: "string", description: "Familia tipografica." },
+        { name: "density", type: '"compact" | "comfortable"', description: "Densidade dos componentes." },
+      ]}
+    />
+  </Section>
 
-## Temas Disponiveis
-
-- `light`
-- `dark`
-- `corporate`
-- `minimal`
-- `soft`
-- `terminal`
-
-## Tokens Customizaveis
-
-```ts
-{
-  colors: {
-    primary: string;
-    secondary: string;
-    background: string;
-    surface: string;
-    text: string;
-    border: string;
-  };
-  radius: string;
-  spacing: string;
-  shadow: string;
-  fontFamily: string;
-  density: "compact" | "comfortable";
-}
-```
-
-## Troca de Tema
-
-```tsx
-<AtomKitProvider theme="terminal">
+  <Section title="Uso e Customizacao">
+    <Tabs
+      items={[
+        {
+          id: "theme",
+          label: "Troca de Tema",
+          content: (
+            <CodeBlock title="AtomKitProvider">
+{`<AtomKitProvider theme="terminal">
   <Button>Executar</Button>
-</AtomKitProvider>
-```
-
-## Customizacao
-
-```tsx
-<AtomKitProvider
+</AtomKitProvider>`}
+            </CodeBlock>
+          ),
+        },
+        {
+          id: "override",
+          label: "Override",
+          content: (
+            <CodeBlock title="Override parcial">
+{`<AtomKitProvider
   theme="corporate"
   tokens={{
     colors: {
@@ -60,7 +73,11 @@ O sistema de temas da AtomKit UI aplica design tokens por CSS variables. O `Atom
   <Card title="Customizado">
     <Button>Salvar</Button>
   </Card>
-</AtomKitProvider>
-```
-
-Veja `Themes/AtomKitProvider` para exemplos visuais com todos os temas.
+</AtomKitProvider>`}
+            </CodeBlock>
+          ),
+        },
+      ]}
+    />
+  </Section>
+</DocsPage>

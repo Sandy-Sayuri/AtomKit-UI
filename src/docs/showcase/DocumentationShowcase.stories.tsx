@@ -14,26 +14,36 @@ import {
   FiSettings,
   FiSliders,
 } from "react-icons/fi";
-import { Alert } from "../../components/molecules/Alert";
-import { Accordion } from "../../components/molecules/Accordion";
-import { FormField } from "../../components/molecules/Field";
-import { Tooltip } from "../../components/molecules/Tooltip";
-import { Badge } from "../../components/atoms/Badge";
-import { Button } from "../../components/atoms/Button";
-import { IconButton } from "../../components/atoms/IconButton";
-import { Card } from "../../components/organisms/Card";
-import { DataTable, type DataTableColumn } from "../../components/organisms/DataTable";
-import { StatsCard } from "../../components/organisms/StatsCard";
-import { AppShell } from "../../components/organisms/layout/AppShell";
-import { Container } from "../../components/organisms/layout/Container";
-import { Footer } from "../../components/organisms/layout/Footer";
-import { Header } from "../../components/organisms/layout/Header";
-import { Section } from "../../components/organisms/layout/Section";
-import { Sidebar } from "../../components/organisms/layout/Sidebar";
-import type { MenuItemData } from "../../components/organisms/navigation";
-import { DonutChart, LineChart } from "../../charts";
+import {
+  Accordion,
+  Alert,
+  AppShell,
+  AtomKitProvider,
+  Badge,
+  BarChart,
+  Button,
+  Card,
+  Container,
+  DataTable,
+  DonutChart,
+  Footer,
+  FormField,
+  Header,
+  IconButton,
+  Input,
+  LineChart,
+  NavigationTree,
+  Section,
+  Sidebar,
+  Sparkline,
+  StatsCard,
+  Tooltip,
+  themes,
+  type AtomKitThemeName,
+  type DataTableColumn,
+  type NavigationTreeGroup,
+} from "../../index";
 import { salesData, themeShareData } from "../../mocks/charts";
-import { AtomKitProvider, themes, type AtomKitThemeName } from "../../theme";
 
 type ComponentStatus = "stable" | "beta" | "experimental" | "planned";
 
@@ -43,17 +53,25 @@ interface ComponentRow extends Record<string, unknown> {
   status: ComponentStatus;
 }
 
+interface UsedComponentRow extends Record<string, unknown> {
+  component: string;
+  role: string;
+}
+
 const themeNames: AtomKitThemeName[] = ["light", "dark", "corporate", "minimal", "soft", "terminal"];
 
 const componentRows: ComponentRow[] = [
   { category: "Layout", name: "AppShell", status: "beta" },
   { category: "Layout", name: "Header", status: "stable" },
   { category: "Layout", name: "Sidebar", status: "stable" },
-  { category: "Navigation", name: "Menu", status: "beta" },
+  { category: "Navigation", name: "NavigationTree", status: "beta" },
   { category: "Components", name: "Button", status: "stable" },
   { category: "Forms", name: "FormField", status: "stable" },
+  { category: "Forms", name: "Input", status: "stable" },
   { category: "Data Display", name: "DataTable", status: "beta" },
   { category: "Charts", name: "LineChart", status: "experimental" },
+  { category: "Charts", name: "BarChart", status: "experimental" },
+  { category: "Charts", name: "Sparkline", status: "experimental" },
   { category: "Charts", name: "DonutChart", status: "experimental" },
 ];
 
@@ -64,15 +82,48 @@ const statusVariant: Record<ComponentStatus, "default" | "success" | "warning" |
   stable: "success",
 };
 
-const menuItems: Array<MenuItemData> = [
-  { icon: <FiFileText />, label: "Getting Started" },
-  { icon: <FiSliders />, label: "Theme System" },
-  { icon: <FiBox />, label: "Components" },
-  { icon: <FiCode />, label: "Forms" },
-  { icon: <FiDatabase />, label: "Data Display" },
-  { icon: <FiBarChart2 />, label: "Charts" },
-  { icon: <FiGrid />, label: "Layout" },
-  { icon: <FiNavigation />, label: "Navigation" },
+const navigationGroups: NavigationTreeGroup[] = [
+  {
+    defaultOpen: true,
+    icon: <FiFileText />,
+    id: "docs",
+    items: [
+      { icon: <FiFileText />, id: "getting-started", label: "Getting Started" },
+      { icon: <FiSliders />, id: "theme-system", label: "Theme System", badge: <Badge size="sm">6</Badge> },
+      { icon: <FiDatabase />, id: "component-status", label: "Component Status" },
+      { icon: <FiGrid />, id: "used-components", label: "Components used" },
+    ],
+    label: "Documentation",
+  },
+  {
+    defaultOpen: true,
+    icon: <FiBox />,
+    id: "library",
+    items: [
+      { icon: <FiBox />, id: "components", label: "Components" },
+      { icon: <FiCode />, id: "forms", label: "Forms" },
+      { icon: <FiBarChart2 />, id: "charts", label: "Charts" },
+      { icon: <FiNavigation />, id: "navigation", label: "Navigation" },
+    ],
+    label: "Library",
+  },
+];
+
+const usedComponentRows: UsedComponentRow[] = [
+  { component: "AtomKitProvider", role: "Applies the selected real theme to the full documentation app." },
+  { component: "AppShell", role: "Owns the application frame with header, sidebar, content and footer." },
+  { component: "Header", role: "Renders the top documentation bar and actions." },
+  { component: "Sidebar", role: "Provides the lateral documentation area." },
+  { component: "NavigationTree", role: "Renders the real documentation navigation menu." },
+  { component: "Card", role: "Frames every documentation content block." },
+  { component: "Button", role: "Renders actions and the theme selector controls." },
+  { component: "Badge", role: "Shows status, density and metadata labels." },
+  { component: "Tooltip", role: "Documents contextual helper content in the header." },
+  { component: "Accordion", role: "Shows expandable documentation content." },
+  { component: "DataTable", role: "Renders component status and this usage inventory." },
+  { component: "FormField", role: "Renders labeled example fields." },
+  { component: "Input", role: "Renders standalone input examples." },
+  { component: "LineChart, BarChart, DonutChart, Sparkline", role: "Render SVG chart examples from the library." },
 ];
 
 const columns: Array<DataTableColumn<ComponentRow>> = [
@@ -142,7 +193,10 @@ function ComponentExamples() {
         </div>
       </Card>
       <Card description="Forms usam tokens e icones." icon={<FiCode />} title="Form">
-        <FormField helperText="Campo demonstrativo." label="Workspace" labelIcon={<FiLayers />} placeholder="atomkit-ui" />
+        <div className="ak-showcase-stack">
+          <FormField helperText="Campo demonstrativo." label="Workspace" labelIcon={<FiLayers />} placeholder="atomkit-ui" />
+          <Input iconLeft={<FiCode />} placeholder="Standalone Input real" />
+        </div>
       </Card>
       <Card description="Estados informativos e conteudo expansivel." icon={<FiFileText />} title="Feedback">
         <div className="ak-showcase-stack">
@@ -208,6 +262,39 @@ function SystemPreview() {
   );
 }
 
+function ChartExamples() {
+  return (
+    <div className="ak-showcase-grid ak-showcase-grid--wide">
+      <Card description="LineChart real com tooltip ancorado ao ponto." icon={<FiBarChart2 />} title="Trend">
+        <LineChart data={salesData} height={180} showGrid showTooltip xKey="month" yKey="value" />
+      </Card>
+      <Card description="BarChart e Sparkline reais usando os mesmos tokens." icon={<FiActivity />} title="Signals">
+        <div className="ak-showcase-stack">
+          <BarChart data={salesData.slice(0, 5)} height={150} showTooltip xKey="month" yKey="value" />
+          <Sparkline data={salesData} height={64} showTooltip xKey="month" yKey="value" />
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+function ComponentsUsedOnThisPage() {
+  const usedColumns: Array<DataTableColumn<UsedComponentRow>> = [
+    { key: "component", header: "Component", render: (row) => <Badge variant="info">{row.component}</Badge> },
+    { key: "role", header: "Used for" },
+  ];
+
+  return (
+    <Card
+      description="Inventory of the exported AtomKit UI components rendering this documentation page."
+      icon={<FiGrid />}
+      title="Components used on this page"
+    >
+      <DataTable bordered columns={usedColumns} data={usedComponentRows} density="compact" striped />
+    </Card>
+  );
+}
+
 function DocumentationApp() {
   const [themeName, setThemeName] = useState<AtomKitThemeName>("light");
   const activeTheme = useMemo(() => themes[themeName], [themeName]);
@@ -236,14 +323,24 @@ function DocumentationApp() {
         sidebar={
           <Sidebar
             footer={<Badge>{activeTheme.density}</Badge>}
-            items={menuItems}
             profileSlot={
               <div>
                 <strong>Documentation</strong>
                 <p className="ak-showcase-muted">Built with AtomKit UI</p>
               </div>
             }
-          />
+            width={300}
+          >
+            <NavigationTree
+              activeId="getting-started"
+              compact
+              footer={<Badge variant="success">AtomKit UI</Badge>}
+              groups={navigationGroups}
+              searchable
+              title="Docs navigation"
+              width="100%"
+            />
+          </Sidebar>
         }
         footer={<Footer content="AtomKit UI showcase built with AtomKit UI components." variant="muted" />}
       >
@@ -254,14 +351,16 @@ function DocumentationApp() {
             title="Documentation Showcase"
           >
             <Alert icon={<FiActivity />} title="Real composition" variant="success">
-              This page is assembled with AppShell, Header, Sidebar, Menu, Button, Card, Badge, Tooltip, Accordion,
-              DataTable, charts and theme tokens from AtomKit UI.
+              This page is assembled with AppShell, Header, Sidebar, NavigationTree, Button, Card, Badge, Tooltip,
+              Accordion, DataTable, charts and theme tokens from AtomKit UI.
             </Alert>
             <TokenPreview themeName={themeName} />
             <ComponentExamples />
+            <ChartExamples />
             <Card description="Only existing components are listed as ready. Planned is reserved for future items." icon={<FiDatabase />} title="Component Status">
               <DataTable bordered columns={columns} data={componentRows} density="comfortable" striped />
             </Card>
+            <ComponentsUsedOnThisPage />
           </Section>
         </Container>
       </AppShell>
@@ -284,7 +383,11 @@ function SystemPreviewApp() {
             title="System Preview"
           />
         }
-        sidebar={<Sidebar footer="System Preview" items={menuItems} profileSlot={<strong>Product Team</strong>} />}
+        sidebar={
+          <Sidebar footer="System Preview" profileSlot={<strong>Product Team</strong>}>
+            <NavigationTree activeId="components" compact groups={navigationGroups} title="Product" width="100%" />
+          </Sidebar>
+        }
       >
         <Container size="full">
           <Section description="A fictitious product screen composed with AtomKit UI." title="Dashboard">
@@ -299,7 +402,12 @@ function SystemPreviewApp() {
 const meta = {
   title: "Showcase/Documentation App",
   component: DocumentationApp,
-  tags: ["autodocs"],
+  parameters: {
+    docs: {
+      disable: true,
+    },
+    layout: "fullscreen",
+  },
 } satisfies Meta<typeof DocumentationApp>;
 
 export default meta;

@@ -1,41 +1,44 @@
 import { Meta } from "@storybook/blocks";
+import { Badge, Button, Card, FormField, Section } from "../../index";
+import { CodeBlock, DocsPage, PropsTable } from "../internal";
 
 <Meta title="Components/Card" />
 
-# Card
+<DocsPage title="Card" status="stable" description="Organismo para agrupar conteudo relacionado em uma superficie visual.">
+  <Section title="Variantes">
+    <div className="ak-docs-grid">
+      <Card title="Elevated" description="Superficie com sombra." variant="elevated"><Badge>default</Badge></Card>
+      <Card title="Outlined" description="Superficie com borda." variant="outlined"><Badge variant="info">outlined</Badge></Card>
+      <Card title="Ghost" description="Superficie discreta." variant="ghost"><Badge variant="success">ghost</Badge></Card>
+    </div>
+  </Section>
 
-Organismo para agrupar conteudo relacionado em uma superficie visual. O componente usa tokens de surface, border, radius, shadow e spacing.
+  <Section title="Props Principais">
+    <PropsTable
+      rows={[
+        { name: "variant", type: '"elevated" | "outlined" | "ghost"', defaultValue: '"elevated"', description: "Define estilo de superficie." },
+        { name: "title", type: "string", description: "Titulo do card." },
+        { name: "description", type: "string", description: "Texto secundario." },
+        { name: "footer", type: "ReactNode", description: "Rodape opcional." },
+        { name: "padding", type: "string", description: "Override de padding via token local." },
+      ]}
+    />
+  </Section>
 
-## Quando Usar
+  <Section title="Exemplo Visual">
+    <Card title="Cadastro" description="Dados principais" variant="outlined" footer={<Button>Salvar</Button>}>
+      <FormField label="Nome" placeholder="Digite seu nome" />
+    </Card>
+  </Section>
 
-- Blocos de formulario
-- Resumos de dados
-- Paineis de composicao
-- Agrupamento de acoes e conteudo
-
-## Props Principais
-
-| Prop | Tipo | Descricao |
-| --- | --- | --- |
-| `variant` | `elevated`, `outlined`, `ghost` | Define estilo de superficie |
-| `title` | `string` | Titulo do card |
-| `description` | `string` | Texto secundario |
-| `footer` | `ReactNode` | Rodape opcional |
-| `padding` | `string` | Override de padding via token local |
-
-## Exemplo
-
-```tsx
-<Card
+  <CodeBlock title="Uso">
+{`<Card
   title="Cadastro"
   description="Dados principais"
   variant="outlined"
   footer={<Button>Salvar</Button>}
 >
   <FormField label="Nome" placeholder="Digite seu nome" />
-</Card>
-```
-
-## Variacoes Documentadas
-
-Veja as stories em `Organisms/Card` para variantes e padding customizado.
+</Card>`}
+  </CodeBlock>
+</DocsPage>

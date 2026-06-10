@@ -23,9 +23,11 @@ export function Sparkline({
   lineWidth = 2,
   loading = false,
   loadingState,
+  renderTooltip,
   showLegend,
   showTooltip = true,
   style,
+  tooltipStyle,
   width = 240,
   xKey = "label",
   yKey = "value",
@@ -53,8 +55,11 @@ export function Sparkline({
       loadingState={loadingState}
       legend={showLegend}
       legendItems={[{ color: colors?.line ?? "var(--ak-color-primary)", label: yKey }]}
+      renderTooltip={renderTooltip}
       style={chartStyle}
       tooltip={showTooltip ? tooltip : null}
+      tooltipStyle={tooltipStyle}
+      width={width}
     >
       <svg className="ak-chart__svg ak-chart__svg--sparkline" role="img" viewBox={`0 0 ${width} ${height}`}>
         {area ? <path className="ak-chart__area" d={areaPath} /> : null}
@@ -65,9 +70,12 @@ export function Sparkline({
             cx={point.x}
             cy={point.y}
             key={`${point.label}-${point.x}`}
+            onBlur={() => setTooltip(null)}
+            onFocus={() => setTooltip(point)}
             onMouseEnter={() => setTooltip(point)}
             onMouseLeave={() => setTooltip(null)}
             r="6"
+            tabIndex={0}
           />
         ))}
       </svg>

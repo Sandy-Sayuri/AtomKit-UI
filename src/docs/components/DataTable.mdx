@@ -1,35 +1,44 @@
 import { Meta } from "@storybook/blocks";
+import { Badge, DataTable, Section } from "../../index";
+import { CodeBlock, DocsPage, PropsTable } from "../internal";
 
 <Meta title="Components/DataTable" />
 
-# DataTable
+<DocsPage title="DataTable" status="stable" description="Organismo para renderizacao tabular generica, sem regra de negocio acoplada.">
+  <Section title="Exemplo Visual">
+    <DataTable
+      bordered
+      striped
+      selectable
+      columns={[
+        { header: "Nome", key: "name", sortable: true },
+        { header: "Area", key: "role" },
+        { header: "Status", key: "status", render: (row) => <Badge variant={row.status === "Ativo" ? "success" : "warning"}>{row.status}</Badge> },
+      ]}
+      data={[
+        { name: "Ana Silva", role: "Design System", status: "Ativo" },
+        { name: "Bruno Lima", role: "Frontend", status: "Pendente" },
+      ]}
+    />
+  </Section>
 
-Organismo para renderizacao tabular generica. O componente nao possui regra de negocio: recebe colunas, dados, renderizadores e callbacks do consumidor.
+  <Section title="Props Principais">
+    <PropsTable
+      rows={[
+        { name: "columns", type: "DataTableColumn<T>[]", required: true, description: "Configuracao das colunas." },
+        { name: "data", type: "T[]", required: true, description: "Dados renderizados." },
+        { name: "loading", type: "boolean", description: "Mostra estado de carregamento." },
+        { name: "emptyState", type: "ReactNode", description: "Conteudo para tabela vazia." },
+        { name: "rowActions", type: "DataTableAction<T>[]", description: "Acoes por linha." },
+        { name: "selectable", type: "boolean", description: "Habilita selecao." },
+        { name: "density", type: '"compact" | "comfortable"', description: "Densidade visual." },
+        { name: "striped / bordered", type: "boolean", description: "Estilos de tabela." },
+      ]}
+    />
+  </Section>
 
-## Quando Usar
-
-- Listagens administrativas
-- Tabelas simples com sorting local
-- Selecao de linhas e acoes por registro
-- Estados de carregamento e vazio
-
-## Props Principais
-
-| Prop | Tipo | Descricao |
-| --- | --- | --- |
-| `columns` | `DataTableColumn<T>[]` | Configuracao das colunas |
-| `data` | `T[]` | Dados renderizados |
-| `loading` | `boolean` | Mostra estado de carregamento |
-| `emptyState` | `ReactNode` | Conteudo para tabela vazia |
-| `rowActions` | `DataTableAction<T>[]` | Acoes por linha |
-| `selectable` | `boolean` | Habilita selecao |
-| `density` | `compact`, `comfortable` | Densidade visual |
-| `striped` / `bordered` | `boolean` | Estilos de tabela |
-
-## Exemplo
-
-```tsx
-const columns = [
+  <CodeBlock title="Uso">
+{`const columns = [
   { key: "name", header: "Nome", sortable: true },
   { key: "role", header: "Area" },
 ];
@@ -40,9 +49,6 @@ const columns = [
   selectable
   striped
   bordered
-/>
-```
-
-## Variacoes Documentadas
-
-Veja as stories em `Organisms/DataTable` para sorting, loading, empty state, acoes, selecao e densidade.
+/>`}
+  </CodeBlock>
+</DocsPage>

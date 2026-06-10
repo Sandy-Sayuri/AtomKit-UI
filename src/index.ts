@@ -12,6 +12,7 @@ export * from "./components/molecules/Tooltip";
 export * from "./components/organisms/Card";
 export * from "./components/organisms/DataTable";
 export * from "./components/organisms/EmptyState";
+export * from "./components/organisms/NavigationTree";
 export * from "./components/organisms/StatsCard";
 export * from "./components/organisms/charts";
 export * from "./components/organisms/layout";

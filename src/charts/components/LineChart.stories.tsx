@@ -53,6 +53,25 @@ export const WithTooltip: Story = {
   },
 };
 
+export const CustomTooltip: Story = {
+  args: {
+    renderTooltip: (payload) => (
+      <div>
+        <strong>{payload.label}</strong>
+        <div>{payload.value} vendas</div>
+      </div>
+    ),
+    tooltipStyle: {
+      background: "#111827",
+      border: "1px solid #374151",
+      borderRadius: 10,
+      boxShadow: "0 16px 40px rgba(17, 24, 39, 0.22)",
+      color: "#ffffff",
+      fontFamily: "Inter, sans-serif",
+    },
+  },
+};
+
 export const WithLegend: Story = {
   args: {
     showLegend: true,

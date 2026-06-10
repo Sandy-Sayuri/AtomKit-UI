@@ -1,4 +1,4 @@
-import { useMemo, useState, type ChangeEvent, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent, type FormEvent } from "react";
 import {
   FiActivity,
   FiBarChart2,
@@ -122,6 +122,12 @@ function getReadableTextColor(hexColor: string) {
   const luminance = (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
 
   return luminance > 0.62 ? "#111827" : "#ffffff";
+}
+
+function getDemoRoute(basePath: string, pathname: string) {
+  const routePath = basePath && pathname.startsWith(basePath) ? pathname.slice(basePath.length) || "/" : pathname;
+
+  return routePath.length > 1 && routePath.endsWith("/") ? routePath.slice(0, -1) : routePath;
 }
 
 const companyOptions = [
@@ -267,6 +273,8 @@ function ThemeSwitcher({
 }
 
 export function DocumentationApp() {
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+  const [currentPath, setCurrentPath] = useState(() => getDemoRoute(basePath, window.location.pathname));
   const [themeName, setThemeName] = useState<AtomKitThemeName>("corporate");
   const [density, setDensity] = useState<AtomKitDensity>("comfortable");
   const [fontScale, setFontScale] = useState<DemoFontScale>("normal");
@@ -376,14 +384,22 @@ export function DocumentationApp() {
   const primaryHover = createPrimaryHover(primaryColor);
   const onPrimary = getReadableTextColor(primaryColor);
   const brandLogo = logoPreview ? <img alt={`${brandName} logo`} className="demo-brand-logo" src={logoPreview} /> : <Badge variant="info">AK</Badge>;
-  const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
-  const pathname = window.location.pathname;
-  const routePath = basePath && pathname.startsWith(basePath) ? pathname.slice(basePath.length) || "/" : pathname;
-  const currentPath = routePath.length > 1 && routePath.endsWith("/") ? routePath.slice(0, -1) : routePath;
   const isDashboardRoute = currentPath === "/dashboard";
 
+  useEffect(() => {
+    function syncRoute() {
+      setCurrentPath(getDemoRoute(basePath, window.location.pathname));
+    }
+
+    window.addEventListener("popstate", syncRoute);
+
+    return () => window.removeEventListener("popstate", syncRoute);
+  }, [basePath]);
+
   function openDashboard() {
-    window.history.pushState({}, "", `${basePath || ""}/dashboard`);
+    const dashboardPath = `${basePath || ""}/dashboard`;
+    window.history.pushState({}, "", dashboardPath);
+    setCurrentPath("/dashboard");
     setActiveSection("dashboard");
   }
 

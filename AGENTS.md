@@ -83,7 +83,7 @@ Temas atuais:
 - `soft`
 - `terminal`
 
-Use `AtomKitProvider` para aplicar tema e overrides.
+Use `AtomKitProvider` para aplicar tema, overrides e formatters globais. Formatters prontos ficam em `src/theme/formatters.ts` e devem continuar aceitando override por `formatters`.
 
 ## Componentes
 
@@ -96,6 +96,8 @@ Componentes base:
 - `Card`
 - `Badge`
 - `DataTable`
+
+`DataTable` deve continuar sendo um componente forte para dashboards e sistemas administrativos. Preserve compatibilidade da API publica e priorize recursos composicionais: renderers por coluna, formatters globais ou locais, selecao, bulk actions, row actions, linhas expansivas, loading, empty state, paginacao, sorting, visibilidade de colunas, densidade, striped, bordered, sticky header, responsive mode, toolbar customizada e export CSV.
 
 Graficos:
 

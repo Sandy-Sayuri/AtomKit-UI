@@ -105,6 +105,38 @@ export function App() {
 </AtomKitProvider>
 ```
 
+## Formatters globais
+
+`AtomKitProvider` aceita `formatters` para padronizar exibicao de dados em componentes como `DataTable`.
+
+Formatters prontos:
+
+- `currency`
+- `date`
+- `datetime`
+- `percentage`
+- `number`
+- `phone`
+- `cpf`
+- `cnpj`
+
+```tsx
+<AtomKitProvider
+  formatters={{
+    currency: (value) =>
+      new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(Number(value)),
+  }}
+>
+  <DataTable
+    columns={[{ key: "salary", header: "Salario", formatter: "currency" }]}
+    data={rows}
+  />
+</AtomKitProvider>
+```
+
 ## Componentes iniciais
 
 - `Button`: variants `primary`, `secondary`, `outline`, `ghost`, `danger`, `success`, `link`; sizes `sm`, `md`, `lg`, `xl`; suporta `loading`, `fullWidth`, `iconLeft` e `iconRight`.
@@ -118,7 +150,7 @@ export function App() {
 - `Tabs`: abas com icones por item.
 - `Card`: variants `elevated`, `outlined`, `ghost` e padding customizavel.
 - `Badge`: variants `default`, `success`, `warning`, `danger`, `info`.
-- `DataTable`: colunas, dados, loading, empty state, sorting, row actions, selecao, density, striped e bordered.
+- `DataTable`: colunas, renderers, formatters, loading, empty state, sorting, row actions, bulk actions, selecao, expansao, paginacao, exportacao CSV, sticky header, responsive mode, density, striped e bordered.
 - `EmptyState`: estado vazio com icone grande e acao opcional.
 - `StatsCard`: card de metrica com icone e tendencia.
 

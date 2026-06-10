@@ -8,16 +8,20 @@ import { CodeBlock, DocsPage, PropsTable } from "../internal";
   <Section title="Exemplo Visual">
     <DataTable
       bordered
+      exportCsv
+      pagination={{ initialPageSize: 2 }}
       striped
       selectable
       columns={[
         { header: "Nome", key: "name", sortable: true },
         { header: "Area", key: "role" },
+        { align: "right", formatter: "currency", header: "Salario", key: "salary" },
         { header: "Status", key: "status", render: (row) => <Badge variant={row.status === "Ativo" ? "success" : "warning"}>{row.status}</Badge> },
       ]}
       data={[
-        { name: "Ana Silva", role: "Design System", status: "Ativo" },
-        { name: "Bruno Lima", role: "Frontend", status: "Pendente" },
+        { name: "Ana Silva", role: "Design System", salary: 9200, status: "Ativo" },
+        { name: "Bruno Lima", role: "Frontend", salary: 8400, status: "Pendente" },
+        { name: "Carla Dias", role: "Produto", salary: 10100, status: "Ativo" },
       ]}
     />
   </Section>
@@ -30,9 +34,29 @@ import { CodeBlock, DocsPage, PropsTable } from "../internal";
         { name: "loading", type: "boolean", description: "Mostra estado de carregamento." },
         { name: "emptyState", type: "ReactNode", description: "Conteudo para tabela vazia." },
         { name: "rowActions", type: "DataTableAction<T>[]", description: "Acoes por linha." },
+        { name: "bulkActions", type: "DataTableBulkAction<T>[]", description: "Acoes aplicadas nas linhas selecionadas." },
         { name: "selectable", type: "boolean", description: "Habilita selecao." },
+        { name: "pagination", type: "boolean | DataTablePagination", description: "Habilita paginacao interna ou controlada." },
+        { name: "exportCsv", type: "boolean | { filename?: string; label?: string }", description: "Adiciona exportacao CSV usando as colunas visiveis." },
+        { name: "columnVisibility", type: "Record<string, boolean>", description: "Controla visibilidade de colunas por chave." },
+        { name: "expandableRows", type: "boolean", description: "Habilita linhas expansivas com renderExpandedRow." },
+        { name: "renderToolbar", type: "(context) => ReactNode", description: "Renderiza uma toolbar customizada com contexto da tabela." },
         { name: "density", type: '"compact" | "comfortable"', description: "Densidade visual." },
+        { name: "stickyHeader", type: "boolean", description: "Mantem o cabecalho fixo dentro da area rolavel." },
+        { name: "responsiveMode", type: '"scroll" | "stack"', description: "Define comportamento responsivo." },
         { name: "striped / bordered", type: "boolean", description: "Estilos de tabela." },
+      ]}
+    />
+  </Section>
+
+  <Section title="Renderers e Formatters">
+    <PropsTable
+      rows={[
+        { name: "column.render", type: "(row, rowIndex) => ReactNode", description: "Renderiza a celula inteira com acesso a linha completa." },
+        { name: "column.renderCell", type: "(value, row, rowIndex) => ReactNode", description: "Renderiza a celula a partir do valor da coluna." },
+        { name: "column.renderHeader", type: "(column) => ReactNode", description: "Renderiza cabecalho customizado." },
+        { name: "column.formatter", type: "string | AtomKitFormatter", description: "Usa formatter global do AtomKitProvider ou funcao local." },
+        { name: "formatters globais", type: "currency | date | datetime | percentage | number | phone | cpf | cnpj", description: "Formatters prontos disponiveis no provider." },
       ]}
     />
   </Section>
@@ -41,14 +65,39 @@ import { CodeBlock, DocsPage, PropsTable } from "../internal";
 {`const columns = [
   { key: "name", header: "Nome", sortable: true },
   { key: "role", header: "Area" },
+  { key: "salary", header: "Salario", formatter: "currency", align: "right" },
+  {
+    key: "status",
+    header: "Status",
+    render: (row) => <Badge variant={row.active ? "success" : "danger"}>{row.status}</Badge>,
+  },
 ];
 
 <DataTable
   columns={columns}
   data={users}
+  exportCsv
+  pagination={{ initialPageSize: 10 }}
   selectable
   striped
   bordered
 />`}
+  </CodeBlock>
+
+  <CodeBlock title="Formatters globais">
+{`<AtomKitProvider
+  formatters={{
+    currency: (value) =>
+      new Intl.NumberFormat("pt-BR", {
+        style: "currency",
+        currency: "BRL",
+      }).format(Number(value)),
+  }}
+>
+  <DataTable
+    columns={[{ key: "salary", header: "Salario", formatter: "currency" }]}
+    data={users}
+  />
+</AtomKitProvider>`}
   </CodeBlock>
 </DocsPage>

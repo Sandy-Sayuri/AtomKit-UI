@@ -234,9 +234,11 @@ export function DataTable<TData extends Record<string, unknown>>({
   const pageSize = paginationConfig?.pageSize ?? internalPageSize;
   const totalPages = paginationConfig ? Math.max(1, Math.ceil(sortedRows.length / pageSize)) : 1;
   const currentPage = Math.min(page, totalPages);
+  const rowsStartIndex = paginationConfig ? (currentPage - 1) * pageSize : 0;
   const rows = paginationConfig ? sortedRows.slice((currentPage - 1) * pageSize, currentPage * pageSize) : sortedRows;
-  const rowIds = rows.map((row, rowIndex) => getRowId?.(row, rowIndex) ?? String((currentPage - 1) * pageSize + rowIndex));
-  const selectedRows = sortedRows.filter((row, rowIndex) => selectedIds.has(getRowId?.(row, rowIndex) ?? String(rowIndex)));
+  const getResolvedRowId = (row: TData, rowIndex: number) => getRowId?.(row, rowIndex) ?? String(rowIndex);
+  const rowIds = rows.map((row, rowIndex) => getResolvedRowId(row, rowsStartIndex + rowIndex));
+  const selectedRows = sortedRows.filter((row, rowIndex) => selectedIds.has(getResolvedRowId(row, rowIndex)));
   const allVisibleSelected = rowIds.length > 0 && rowIds.every((id) => selectedIds.has(id));
   const controlColumnCount = (selectable ? 1 : 0) + (expandableRows ? 1 : 0);
   const actionColumnCount = rowActions.length > 0 ? 1 : 0;
@@ -244,7 +246,7 @@ export function DataTable<TData extends Record<string, unknown>>({
 
   function updateSelection(next: Set<string>) {
     setSelectedIds(next);
-    onSelectionChange?.(sortedRows.filter((row, rowIndex) => next.has(getRowId?.(row, rowIndex) ?? String(rowIndex))));
+    onSelectionChange?.(sortedRows.filter((row, rowIndex) => next.has(getResolvedRowId(row, rowIndex))));
   }
 
   function clearSelection() {
@@ -409,6 +411,7 @@ export function DataTable<TData extends Record<string, unknown>>({
             </tr>
           ) : (
             rows.map((row, rowIndex) => {
+              const absoluteRowIndex = rowsStartIndex + rowIndex;
               const rowId = rowIds[rowIndex];
               const expanded = expandedIds.has(rowId);
 
@@ -441,10 +444,10 @@ export function DataTable<TData extends Record<string, unknown>>({
                     {visibleColumns.map((column) => {
                       const value = getCellValue(row, column.key);
                       const content = column.render
-                        ? column.render(row, rowIndex)
+                        ? column.render(row, absoluteRowIndex)
                         : column.renderCell
-                          ? column.renderCell(value, row, rowIndex)
-                          : formatCell(column.formatter, value, row, rowIndex, formatters);
+                          ? column.renderCell(value, row, absoluteRowIndex)
+                          : formatCell(column.formatter, value, row, absoluteRowIndex, formatters);
 
                       return (
                         <td
@@ -464,7 +467,7 @@ export function DataTable<TData extends Record<string, unknown>>({
                             <button
                               className="ak-button ak-button--ghost ak-button--sm"
                               key={action.label}
-                              onClick={() => action.onClick(row, rowIndex)}
+                              onClick={() => action.onClick(row, absoluteRowIndex)}
                               type="button"
                             >
                               {action.icon ? <span className="ak-icon">{action.icon}</span> : null}
@@ -478,7 +481,7 @@ export function DataTable<TData extends Record<string, unknown>>({
                   {expanded ? (
                     <tr className="ak-data-table__expanded-row">
                       <td className="ak-data-table__td ak-data-table__expanded-cell" colSpan={totalColumnCount}>
-                        {renderExpandedRow?.(row, rowIndex) ?? null}
+                        {renderExpandedRow?.(row, absoluteRowIndex) ?? null}
                       </td>
                     </tr>
                   ) : null}

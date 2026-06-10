@@ -9,6 +9,7 @@ import {
   FiDollarSign,
   FiGrid,
   FiHome,
+  FiLock,
   FiPlus,
   FiSearch,
   FiSend,
@@ -375,6 +376,16 @@ export function DocumentationApp() {
   const primaryHover = createPrimaryHover(primaryColor);
   const onPrimary = getReadableTextColor(primaryColor);
   const brandLogo = logoPreview ? <img alt={`${brandName} logo`} className="demo-brand-logo" src={logoPreview} /> : <Badge variant="info">AK</Badge>;
+  const basePath = import.meta.env.BASE_URL.replace(/\/$/, "");
+  const pathname = window.location.pathname;
+  const routePath = basePath && pathname.startsWith(basePath) ? pathname.slice(basePath.length) || "/" : pathname;
+  const currentPath = routePath.length > 1 && routePath.endsWith("/") ? routePath.slice(0, -1) : routePath;
+  const isDashboardRoute = currentPath === "/dashboard";
+
+  function openDashboard() {
+    window.history.pushState({}, "", `${basePath || ""}/dashboard`);
+    setActiveSection("dashboard");
+  }
 
   return (
     <AtomKitProvider
@@ -391,6 +402,28 @@ export function DocumentationApp() {
         fontFamily: panelFontFamily,
       }}
     >
+      {!isDashboardRoute ? (
+        <main className="demo-login-page">
+          <Card className="demo-login-card" icon={<FiLock />} title={brandName} description="Acesse o painel comercial da sua empresa.">
+            <form
+              className="demo-form"
+              onSubmit={(event) => {
+                event.preventDefault();
+                openDashboard();
+              }}
+            >
+              <FormField defaultValue="admin@atomkit.local" label="Email" type="email" />
+              <FormField defaultValue="atomkit-demo" label="Senha" type="password" />
+              <Button fullWidth iconLeft={<FiLock />} type="submit">
+                Entrar no painel
+              </Button>
+              <Button fullWidth onClick={openDashboard} variant="outline">
+                Ver demonstracao sem login
+              </Button>
+            </form>
+          </Card>
+        </main>
+      ) : (
       <AppShell
         fullHeight
         layout="dashboard"
@@ -752,6 +785,7 @@ export function DocumentationApp() {
           </Section>
         </Container>
       </AppShell>
+      )}
       {createdClientName ? (
         <div className="demo-modal-backdrop">
           <Card

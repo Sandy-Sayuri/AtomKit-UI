@@ -112,6 +112,8 @@ Storybook e a vitrine oficial da biblioteca.
 
 Tambem existe uma demo app simples em `docs-app/`, executada por `npm run docs` e buildada por `npm run build-docs`. Ela deve simular uma aplicacao real pequena usando a AtomKit UI, importar componentes pela API publica local (`src/index.ts`) e nao duplicar a documentacao principal do Storybook.
 
+A demo app e publicada no GitHub Pages pelo workflow `.github/workflows/pages.yml`. O build de Pages usa `GITHUB_PAGES=true` para aplicar `base: "/AtomKit-UI/"` e copia `index.html` para `404.html` como fallback de SPA, permitindo rotas como `/login` e `/dashboard`. A raiz e `/login` devem exibir a tela de login; `/dashboard` exibe o painel depois da entrada.
+
 Ao criar ou alterar componentes:
 
 - criar/atualizar stories;

@@ -361,6 +361,24 @@ Esse app usa `vite.docs.config.ts`, importa componentes pela API publica local e
 npm run build-docs
 ```
 
+### GitHub Pages
+
+A demo app esta preparada para GitHub Pages pelo workflow `.github/workflows/pages.yml`.
+
+Ao fazer push para `main` ou `master`, o GitHub Actions executa `npm run build-docs`, publica `docs-static/` e adiciona fallback SPA para rotas como `/login` e `/dashboard`.
+
+URL esperada:
+
+```txt
+https://sandy-sayuri.github.io/AtomKit-UI/
+https://sandy-sayuri.github.io/AtomKit-UI/login
+https://sandy-sayuri.github.io/AtomKit-UI/dashboard
+```
+
+A raiz e `/login` exibem a tela de login. Depois de entrar, a demo navega para `/dashboard`.
+
+No GitHub, habilite Pages em **Settings > Pages** usando **Source: GitHub Actions**.
+
 ## Showcase com a propria AtomKit UI
 
 A documentacao tambem possui showcases no Storybook montados com os proprios componentes da biblioteca.

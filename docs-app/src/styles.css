@@ -109,6 +109,22 @@ body {
   margin-bottom: 0;
 }
 
+.demo-login-page {
+  align-items: center;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--ak-color-primary) 12%, transparent), transparent 42%),
+    var(--ak-color-background);
+  display: grid;
+  min-height: 100vh;
+  padding: calc(var(--ak-spacing) * 3);
+}
+
+.demo-login-card {
+  justify-self: center;
+  max-width: 420px;
+  width: min(100%, 420px);
+}
+
 .demo-stats,
 .demo-grid {
   display: grid;

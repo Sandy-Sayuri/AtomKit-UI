@@ -1654,6 +1654,22 @@
   color: var(--ak-nav-tree-active-color, var(--ak-color-on-primary));
 }
 
+.ak-navigation-tree__item--active:hover,
+.ak-navigation-tree__item--active:focus,
+.ak-navigation-tree__item--active:focus-visible {
+  background: var(--ak-nav-tree-item-active-bg, var(--ak-nav-tree-active-bg, var(--ak-color-primary)));
+  box-shadow: 0 0 0 2px var(--ak-color-focus);
+  color: var(--ak-nav-tree-active-color, var(--ak-color-on-primary));
+  outline: none;
+}
+
+.ak-navigation-tree__item--active .ak-navigation-tree__icon,
+.ak-navigation-tree__item--active .ak-navigation-tree__badge,
+.ak-navigation-tree__item--active .ak-navigation-tree__external,
+.ak-navigation-tree__item--active .ak-navigation-tree__chevron {
+  color: currentColor;
+}
+
 .ak-navigation-tree__item--disabled {
   cursor: not-allowed;
   opacity: 0.52;

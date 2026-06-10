@@ -109,6 +109,20 @@ function createPrimaryHover(hexColor: string) {
   return `#${darker}`;
 }
 
+function getReadableTextColor(hexColor: string) {
+  const normalized = hexColor.replace("#", "");
+  if (normalized.length !== 6) {
+    return "#ffffff";
+  }
+
+  const red = Number.parseInt(normalized.slice(0, 2), 16);
+  const green = Number.parseInt(normalized.slice(2, 4), 16);
+  const blue = Number.parseInt(normalized.slice(4, 6), 16);
+  const luminance = (0.299 * red + 0.587 * green + 0.114 * blue) / 255;
+
+  return luminance > 0.62 ? "#111827" : "#ffffff";
+}
+
 const companyOptions = [
   { label: "Martins Foods", value: "Martins Foods" },
   { label: "Costa Retail", value: "Costa Retail" },
@@ -359,6 +373,7 @@ export function DocumentationApp() {
 
   const currentScreen = screenCopy[activeSection];
   const primaryHover = createPrimaryHover(primaryColor);
+  const onPrimary = getReadableTextColor(primaryColor);
   const brandLogo = logoPreview ? <img alt={`${brandName} logo`} className="demo-brand-logo" src={logoPreview} /> : <Badge variant="info">AK</Badge>;
 
   return (
@@ -368,6 +383,7 @@ export function DocumentationApp() {
       tokens={{
         colors: {
           focus: `${primaryColor}2e`,
+          onPrimary,
           primary: primaryColor,
           primaryHover,
         },
@@ -416,7 +432,19 @@ export function DocumentationApp() {
             }
             width={292}
           >
-            <NavigationTree activeId={activeSection} compact groups={navigationGroups} searchable title="Navegacao" width="100%" />
+            <NavigationTree
+              activeId={activeSection}
+              compact
+              groups={navigationGroups}
+              searchable
+              themeOverrides={{
+                activeBackground: primaryColor,
+                activeTextColor: onPrimary,
+                hoverBackground: "var(--ak-color-surface-muted)",
+              }}
+              title="Navegacao"
+              width="100%"
+            />
           </Sidebar>
         }
         footer={<Footer content="AtomKit Commerce - painel operacional" variant="muted" />}

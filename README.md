@@ -110,6 +110,7 @@ export function App() {
 - `Button`: variants `primary`, `secondary`, `outline`, `ghost`, `danger`, `success`, `link`; sizes `sm`, `md`, `lg`, `xl`; suporta `loading`, `fullWidth`, `iconLeft` e `iconRight`.
 - `IconButton`: botao apenas com icone e label acessivel.
 - `Input`: sizes, disabled, erro, helper text e icones laterais.
+- `Select`: dropdown configuravel com `options`, placeholder, helper text, erro, icone lateral e tamanhos.
 - `FormField`: label, required, erro e helper text. `Field` continua exportado como alias.
 - `Alert`: mensagem contextual com icone customizavel.
 - `Tooltip`: dica simples com trigger e icone opcional.
@@ -340,9 +341,9 @@ npm run storybook
 
 A story `Theme/AtomKitProvider` documenta a troca de temas e exemplos de customizacao parcial.
 
-## Documentation App proprio
+## Demo App
 
-O projeto tambem possui um site proprio de documentacao, separado do Storybook, em `docs-app/`.
+O projeto tambem possui uma demo app simples em `docs-app/`. Ela nao substitui o Storybook; serve para mostrar a AtomKit UI em uma tela realista com dashboard, menu lateral, metricas, graficos, tabela e formulario.
 
 ```bash
 npm run docs
@@ -354,7 +355,7 @@ Abra a URL mostrada pelo Vite, normalmente:
 http://127.0.0.1:5173
 ```
 
-Esse app usa `vite.docs.config.ts`, importa componentes pela API publica local em `src/index.ts` e renderiza a documentacao com `AtomKitProvider`, `AppShell`, `Header`, `Sidebar`, `NavigationTree`, `Card`, `Button`, `Badge`, `Tooltip`, `Accordion`, `DataTable`, `FormField`, `Input` e charts SVG. Para gerar a versao estatica:
+Esse app usa `vite.docs.config.ts`, importa componentes pela API publica local em `src/index.ts` e renderiza a demo com `AtomKitProvider`, `AppShell`, `Header`, `Sidebar`, `NavigationTree`, `Card`, `StatsCard`, `Button`, `Badge`, `Tooltip`, `DataTable`, `FormField`, `Input` e charts SVG. Para gerar a versao estatica:
 
 ```bash
 npm run build-docs
@@ -362,7 +363,7 @@ npm run build-docs
 
 ## Showcase com a propria AtomKit UI
 
-A documentacao tambem possui uma vitrine montada com os proprios componentes da biblioteca em `Showcase/Documentation App`.
+A documentacao tambem possui showcases no Storybook montados com os proprios componentes da biblioteca.
 
 Essa tela usa componentes reais da AtomKit UI:
 
@@ -382,7 +383,7 @@ Essa tela usa componentes reais da AtomKit UI:
 - charts SVG (`LineChart`, `BarChart`, `DonutChart`, `Sparkline`)
 - design tokens e temas via `AtomKitProvider`
 
-O showcase importa esses componentes pela API publica da biblioteca, possui uma secao **Components used on this page** e permite alternar entre `light`, `dark`, `corporate`, `minimal`, `soft` e `terminal`, atualizando visualmente a propria documentacao. Tambem existe a story `Showcase/System Preview`, que mostra uma tela ficticia combinando layout, cards, tabela, grafico, formulario, alert e accordion.
+Os showcases importam componentes pela API publica da biblioteca e permitem alternar entre `light`, `dark`, `corporate`, `minimal`, `soft` e `terminal`. A demo em `docs-app/` cobre o uso integrado em uma aplicacao simples.
 
 ## Documentacao com Componentes AtomKit
 
@@ -427,6 +428,33 @@ npm run build
 ```
 
 O build gera JavaScript, CSS e declaracoes TypeScript em `dist/`.
+
+## Pacote npm
+
+O projeto esta configurado para ser empacotado como biblioteca npm, mas a publicacao nao deve ser feita automaticamente.
+
+Entradas publicas do pacote:
+
+- `atomkit-ui`: componentes, temas, helpers e charts.
+- `atomkit-ui/styles`: CSS compilado da biblioteca.
+- `atomkit-ui/styles.css`: alias para o mesmo CSS compilado.
+
+Antes de publicar, valide o pacote localmente:
+
+```bash
+npm run build
+npm run lint
+npm run pack:check
+```
+
+`npm run pack:check` executa `npm pack --dry-run` e mostra exatamente quais arquivos entrariam no pacote. O `prepack` tambem roda o build antes de gerar um pacote real com `npm pack`.
+
+Pontos que ainda dependem do mantenedor antes de um publish real:
+
+- confirmar se o nome `atomkit-ui` esta disponivel no npm;
+- revisar autor, repositorio e ownership do pacote;
+- confirmar se a licenca MIT adicionada esta correta para o projeto;
+- escolher se a publicacao sera publica ou privada.
 
 ## Preparacao para Angular
 

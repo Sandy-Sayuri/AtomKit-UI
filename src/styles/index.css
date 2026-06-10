@@ -301,6 +301,94 @@
   cursor: not-allowed;
 }
 
+.ak-select-shell {
+  align-items: center;
+  background: var(--ak-color-surface);
+  border: 1px solid var(--ak-color-border);
+  border-radius: var(--ak-radius);
+  display: flex;
+  gap: calc(var(--ak-spacing) * 0.75);
+  min-height: calc(var(--ak-select-height, 40px) * var(--ak-density-scale));
+  padding: 0 calc(var(--ak-select-padding-x, 12px) * var(--ak-density-scale));
+  transition: border-color 160ms ease, box-shadow 160ms ease, background-color 160ms ease;
+  width: 100%;
+}
+
+.ak-select-group {
+  display: grid;
+  gap: calc(var(--ak-spacing) * 0.75);
+  width: 100%;
+}
+
+.ak-select-shell:focus-within {
+  border-color: var(--ak-color-primary);
+  box-shadow: 0 0 0 3px var(--ak-color-focus);
+}
+
+.ak-select-shell[data-invalid="true"] {
+  border-color: var(--ak-color-danger);
+}
+
+.ak-select-shell[data-disabled="true"] {
+  background: var(--ak-color-surface-muted);
+  cursor: not-allowed;
+  opacity: 0.72;
+}
+
+.ak-select-shell__icon,
+.ak-select-shell__chevron {
+  color: var(--ak-color-text-muted);
+  display: inline-flex;
+  flex: 0 0 auto;
+}
+
+.ak-select-shell__chevron {
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.ak-select {
+  appearance: none;
+  background: transparent;
+  border: 0;
+  color: var(--ak-color-text);
+  flex: 1 1 auto;
+  font-family: var(--ak-font-family);
+  font-size: var(--ak-select-font-size, 0.875rem);
+  min-width: 0;
+  outline: none;
+  padding: 0;
+  width: 100%;
+}
+
+.ak-select:disabled {
+  cursor: not-allowed;
+}
+
+.ak-select-shell--sm {
+  --ak-select-height: 32px;
+  --ak-select-padding-x: 10px;
+  --ak-select-font-size: 0.8125rem;
+}
+
+.ak-select-shell--md {
+  --ak-select-height: 40px;
+  --ak-select-padding-x: 12px;
+  --ak-select-font-size: 0.875rem;
+}
+
+.ak-select-shell--lg {
+  --ak-select-height: 48px;
+  --ak-select-padding-x: 14px;
+  --ak-select-font-size: 1rem;
+}
+
+.ak-select-shell--xl {
+  --ak-select-height: 56px;
+  --ak-select-padding-x: 16px;
+  --ak-select-font-size: 1.0625rem;
+}
+
 .ak-input-shell--sm {
   --ak-input-height: 32px;
   --ak-input-padding-x: 10px;

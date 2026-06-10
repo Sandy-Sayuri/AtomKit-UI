@@ -8,6 +8,7 @@ AtomKit UI e uma biblioteca de componentes React + TypeScript baseada em Atomic 
 
 - Criar componentes pequenos, tipados e independentes de regra de negocio.
 - Usar Storybook como documentacao e showcase principal.
+- Manter `docs-app/` como uma demo app simples de uso real da biblioteca, nao como documentacao duplicada.
 - Manter temas prontos e override parcial de tokens.
 - Renderizar graficos autorais com SVG, sem bibliotecas externas de charts.
 - Preparar a arquitetura de tokens para reaproveitamento futuro em outras stacks.
@@ -30,6 +31,7 @@ npm run build-docs
 npm run storybook
 npm run build
 npm run lint
+npm run pack:check
 npm run build-storybook
 ```
 
@@ -65,7 +67,8 @@ src/
 8. Evitar cores fixas nos componentes; permitir override por props ou tokens.
 9. Documentar novos componentes no Storybook.
 10. Atualizar `README.md` e este `AGENTS.md` sempre que uma mudanca relevante alterar API, comportamento, arquitetura, scripts, Storybook ou fluxo de uso.
-11. Rodar `npm run build`, `npm run lint` e, quando alterar stories/docs, `npm run build-storybook`.
+11. Rodar `npm run build`, `npm run lint`, `npm run pack:check` e, quando alterar stories/docs, `npm run build-storybook`.
+12. Nao executar `npm publish`. Preparacoes para pacote npm podem ser feitas, mas publicacao exige acao explicita do mantenedor fora do fluxo automatizado.
 
 ## Temas
 
@@ -88,6 +91,7 @@ Componentes base:
 
 - `Button`
 - `Input`
+- `Select`
 - `FormField`
 - `Card`
 - `Badge`
@@ -106,7 +110,7 @@ Graficos:
 
 Storybook e a vitrine oficial da biblioteca.
 
-Tambem existe um app proprio de documentacao em `docs-app/`, executado por `npm run docs` e buildado por `npm run build-docs`. Ele nao depende do Storybook para renderizar a documentacao e deve importar componentes pela API publica local (`src/index.ts`), usando prioritariamente componentes reais da AtomKit UI.
+Tambem existe uma demo app simples em `docs-app/`, executada por `npm run docs` e buildada por `npm run build-docs`. Ela deve simular uma aplicacao real pequena usando a AtomKit UI, importar componentes pela API publica local (`src/index.ts`) e nao duplicar a documentacao principal do Storybook.
 
 Ao criar ou alterar componentes:
 
@@ -122,7 +126,7 @@ As paginas MDX de documentacao devem parecer uma aplicacao real construida com A
 - `CodeBlock` para exemplos de codigo com `Card` e `Button` de copiar.
 - `PropsTable` para props usando `DataTable`.
 
-A story `Showcase/Documentation App` deve importar componentes pela API publica da biblioteca e usar componentes reais na composicao principal: `AtomKitProvider`, `AppShell`, `Header`, `Sidebar`, `NavigationTree`, `Card`, `Button`, `Badge`, `Tooltip`, `Accordion`, `DataTable`, `FormField`, `Input` e charts SVG. O seletor de tema deve trocar o tema real do `AtomKitProvider`, o menu lateral deve usar `NavigationTree`, e a pagina deve manter a secao "Components used on this page".
+A demo app em `docs-app/` deve importar componentes pela API publica da biblioteca e usar componentes reais na composicao principal: `AtomKitProvider`, `AppShell`, `Header`, `Sidebar`, `NavigationTree`, `Card`, `Button`, `Badge`, `Tooltip`, `DataTable`, `FormField`, `Input` e charts SVG. O seletor de tema deve trocar o tema real do `AtomKitProvider`, o menu lateral deve usar `NavigationTree`, e a tela deve demonstrar uma pagina de produto simples, como dashboard, tabela e formulario.
 
 Evite HTML puro em documentacao quando existir componente equivalente na biblioteca. Nao documente componentes inexistentes como se estivessem prontos.
 
@@ -173,5 +177,6 @@ Antes de considerar uma mudanca pronta:
 ```bash
 npm run build
 npm run lint
+npm run pack:check
 npm run build-storybook
 ```

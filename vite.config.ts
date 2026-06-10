@@ -7,7 +7,14 @@ export default defineConfig({
   plugins: [
     react(),
     dts({
-      exclude: ["src/**/*.stories.ts", "src/**/*.stories.tsx", "src/**/*.test.ts", "src/**/*.test.tsx"],
+      exclude: [
+        "src/docs/**",
+        "src/mocks/**",
+        "src/**/*.stories.ts",
+        "src/**/*.stories.tsx",
+        "src/**/*.test.ts",
+        "src/**/*.test.tsx",
+      ],
       insertTypesEntry: true,
     }),
   ],

@@ -4,6 +4,7 @@ export * from "./components/atoms/Button";
 export * from "./components/atoms/Badge";
 export * from "./components/atoms/IconButton";
 export * from "./components/atoms/Input";
+export * from "./components/atoms/Select";
 export * from "./components/molecules/Accordion";
 export * from "./components/molecules/Alert";
 export * from "./components/molecules/Field";

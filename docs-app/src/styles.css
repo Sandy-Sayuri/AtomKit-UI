@@ -169,6 +169,10 @@ body {
   justify-content: flex-end;
 }
 
+.demo-card--overflow-visible {
+  overflow: visible;
+}
+
 .demo-settings-stack,
 .demo-settings-group {
   display: grid;

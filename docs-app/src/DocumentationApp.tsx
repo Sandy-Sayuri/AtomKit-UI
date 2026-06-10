@@ -546,8 +546,12 @@ export function DocumentationApp() {
                       <Select
                         iconLeft={<FiBox />}
                         onChange={(event) => setClientForm((current) => ({ ...current, company: event.target.value }))}
+                        onValueChange={(nextValue) => setClientForm((current) => ({ ...current, company: nextValue }))}
                         options={companyOptions}
                         placeholder="Selecione uma empresa"
+                        searchable
+                        searchLabel="Buscar empresa"
+                        searchPlaceholder="Digite o nome da empresa..."
                         value={clientForm.company}
                       />
                     </label>
@@ -623,7 +627,7 @@ export function DocumentationApp() {
 
             {activeSection === "settings" ? (
               <div className="demo-grid demo-grid--work">
-                <Card description="Ajuste o tema aplicado ao painel operacional." icon={<FiSliders />} title="Aparencia">
+                <Card className="demo-card--overflow-visible" description="Ajuste o tema aplicado ao painel operacional." icon={<FiSliders />} title="Aparencia">
                   <div className="demo-settings-stack">
                     <div className="demo-settings-group">
                       <span className="demo-settings-label">Tema</span>
@@ -660,7 +664,11 @@ export function DocumentationApp() {
                       <Select
                         iconLeft={<FiSliders />}
                         onChange={(event) => setPanelFontFamily(event.target.value)}
+                        onValueChange={setPanelFontFamily}
                         options={fontFamilyOptions}
+                        searchable
+                        searchLabel="Buscar fonte"
+                        searchPlaceholder="Digite o nome da fonte..."
                         value={panelFontFamily}
                       />
                     </label>
@@ -679,7 +687,7 @@ export function DocumentationApp() {
                     </label>
                   </div>
                 </Card>
-                <Card description="Logo, nome exibido e dados usados em documentos, emails e cobrancas." icon={<FiSettings />} title="Marca e empresa">
+                <Card className="demo-card--overflow-visible" description="Logo, nome exibido e dados usados em documentos, emails e cobrancas." icon={<FiSettings />} title="Marca e empresa">
                   <form className="demo-form" onSubmit={handleSaveSettings}>
                     <label className="ak-field">
                       <span className="ak-field__label">Logo</span>
@@ -698,7 +706,12 @@ export function DocumentationApp() {
                           { label: "Real brasileiro (R$)", value: "BRL" },
                           { label: "Dolar americano (US$)", value: "USD" },
                           { label: "Euro (EUR)", value: "EUR" },
+                          { label: "Libra esterlina (GBP)", value: "GBP" },
+                          { label: "Peso argentino (ARS)", value: "ARS" },
                         ]}
+                        searchable
+                        searchLabel="Buscar moeda"
+                        searchPlaceholder="Digite nome ou codigo..."
                       />
                     </label>
                     <Button fullWidth iconLeft={<FiCheckCircle />} type="submit">

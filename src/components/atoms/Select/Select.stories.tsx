@@ -41,3 +41,19 @@ export const Invalid: Story = {
     placeholder: "Selecione uma empresa",
   },
 };
+
+export const Searchable: Story = {
+  args: {
+    options: [
+      { label: "Real brasileiro (R$)", value: "BRL" },
+      { label: "Dolar americano (US$)", value: "USD" },
+      { label: "Euro (EUR)", value: "EUR" },
+      { label: "Libra esterlina (GBP)", value: "GBP" },
+      { label: "Peso argentino (ARS)", value: "ARS" },
+    ],
+    placeholder: "Selecione uma moeda",
+    searchable: true,
+    searchLabel: "Buscar moeda",
+    searchPlaceholder: "Digite nome ou codigo...",
+  },
+};
